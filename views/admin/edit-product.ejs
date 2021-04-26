@@ -1,0 +1,35 @@
+<%- include('../includes/head.ejs'); %> 
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs'); %> 
+    <main class='main'>
+        <h1 class='primary-title'>
+            <%= edit ? 'Edit Product' : 'Add Product' %>
+        </h1>
+        <form class='product-form' action="/admin/<%= edit ? 'edit-product' : 'add-product' %>" method="POST">
+            <div class="product-form__control">
+                <label for="title">Title</label>
+                <input class='input' type="text" name="title" id="title" 
+                    value="<%= edit ? product.title : ''%>" required>
+            </div>
+            <div class="product-form__control">
+                <label for="price">Price</label>
+                <input class='input' type="number" name="price" id="price" 
+                    step="0.01" value="<%= edit ? product.price : ''%>" required>
+            </div>
+            <div class="product-form__control">
+                <label for="imageUrl">Image URL</label>
+                <input class='input' type="text" name="imageUrl" id="imageUrl" 
+                value="<%= edit ? product.imageUrl : ''%>" required>
+            </div>
+            <div class="product-form__control">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="5" 
+                    required maxlength="150"><%= edit ? product.description : ''%></textarea>
+            </div>
+            <button class='btn' type="submit"><%= edit ? 'Update Product' : 'Add Product' %></button>
+        </form>
+    </main>
+
+    <%- include('../includes/end.ejs'); %> 

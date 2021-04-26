@@ -1,0 +1,57 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid rgba(black, .1);
+    padding: 2rem 0;
+    border-radius: 10px;
+    box-shadow: 0 1rem 1.5rem rgba(black, .4);
+
+
+    &__header {
+        margin-bottom: 1rem;
+    }
+
+    &__image { 
+        img {
+            border-radius: 5px;
+            box-shadow: 0 1rem 1.5rem rgba(black, .4);
+        }
+        margin-bottom: 1rem;
+    }
+
+    &__content {
+        text-align: center;
+        width: 70%;
+        margin-bottom: 2rem;
+
+    }
+
+    &__description {
+        font-size: 1.2rem;
+    }
+
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+
+        :first-child {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__admin {
+        :first-child {
+            button {
+                background-color: darkgray;
+            }
+        }
+        :last-child {
+            button {
+                background-color: hsl(0, 70%, 60%);
+            }
+        }
+    }
+}
