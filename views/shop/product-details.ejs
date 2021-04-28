@@ -4,11 +4,9 @@
 <body>
     <%- include('../includes/navigation.ejs'); %> 
     <main class="main">
-        <article class="card product__item mt-lg">
-            <header class="card__header">
-                <h1 class="product__title"><%= product.title %></h1>
-            </header>
-            <div class="card__image">
+        <h1 class="primary-title"><%= product.title %></h1>
+        <article class="card product__item">
+            <div class="card__image mt-md">
                 <img src="https://picsum.photos/id/<%= '5' + product.id %>/200" alt="<%= product.title %>">
             </div>
             <div class="card__content">

@@ -3,39 +3,43 @@ const Product = require('../models/product');
 const Cart = require('../models/cart');
 
 const getAllProducts = (req, res) => {
-    Product.fetchAll(products => {
-        res.render('shop/product-list', 
-        { 
-            pageTitle: 'Shop', 
-            products, 
-            path: '/shop'
-        });
-    });
+    Product.fetchAll()
+        .then(([products]) => {
+            res.render('shop/product-list', 
+            { 
+                pageTitle: 'Shop', 
+                products: products, 
+                path: '/shop'
+            });
+    }).catch(err => console.log(err));
 }
 
 const getProductDetails = (req, res) => {
-    Product.findById(req.params.productId, product => {
-        if (product) {
-            return res.render('shop/product-details.ejs', 
-            { 
-                pageTitle: 'Product List', 
-                product, 
-                path: '/product-list'
-            });
-        }
-        res.redirect('/');
-    });
+    Product.findById(req.params.productId)
+        .then(([product]) => {
+            if (product) {
+                return res.render('shop/product-details.ejs', 
+                { 
+                    pageTitle: 'Product List', 
+                    product: product[0], 
+                    path: '/product-list'
+                });
+            }
+            res.redirect('/');
+    }).catch(err => console.log(err));
 }
 
 const getProductList = (req, res) => {
-    Product.fetchAll(products => {
-        res.render('shop/product-list', 
-        { 
-            pageTitle: 'Shop | Product List', 
-            products, 
-            path: '/product-list'
-        });
-    });
+    Product.fetchAll()
+        .then(([products]) => {
+            console.log(products);
+            res.render('shop/product-list', 
+            { 
+                pageTitle: 'Shop | Product List', 
+                products: products, 
+                path: '/product-list'
+            })
+    }).catch(err => console.log(err));
 }
 
 const getShopIndex = (req, res) => {

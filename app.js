@@ -1,7 +1,14 @@
 const express = require('express');
 const app = express();
 
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const path = require('path');
+const db = require('./utilities/database');
+
+// Express setup
 app.use(express.static(path.join(__dirname, 'public'))); //Serve static assets
 app.use(express.urlencoded({ extended: true })); //Parse to JSON
 app.set('view engine', 'ejs');
@@ -12,7 +19,7 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 //Controllers
-const { get404Error } = require('./controllers/errors')
+const { get404Error } = require('./controllers/errors');
 
 app.use('/admin', adminRoutes);
 

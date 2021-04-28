@@ -242,7 +242,7 @@ li, a {
     display: none; } }
 
 .card {
-  max-width: 35rem;
+  min-width: 30rem;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
