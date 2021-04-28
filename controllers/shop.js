@@ -55,22 +55,38 @@ const getCheckoutPage = (req, res) => {
 }
 
 const getCartPage = (req, res) => {
-    res.render('shop/cart', 
-    { 
-        pageTitle: 'Shop | Cart Page', 
-        path: '/cart'
-    });
+    Cart.fetchAll(cart => {
+        Product.fetchAll(products => {
+            const cartProducts = [];
+            for (let product of products) {
+                const cartProductData = cart.products.find(item => item.id === product.id);
+                if (cartProductData) {
+                    cartProducts.push({ ...product, qty: cartProductData.qty });
+                }
+            }
+            res.render('shop/cart', 
+            { 
+                pageTitle: 'Shop | Cart Page', 
+                path: '/cart',
+                cartProducts,
+                totalPrice: cart.totalPrice
+            });
+        });
+    })
 }
 
 const addToCart = (req, res) => {
-    const productId = Number(req.body.productId);
+    const productId = req.body.productId;
     Product.findById(productId, product => {
         Cart.addProduct(productId, Number(product.price));
     });
-    res.render('shop/cart', 
-    { 
-        pageTitle: 'Shop | Cart Page', 
-        path: '/cart'
+    res.redirect('/cart');
+} 
+
+const deleteFromCart = (req, res) => {
+    const { productId } = req.body;
+    Product.findById(productId, product => {
+        Cart.deleteProduct(productId, product.price, () => res.redirect('/cart'));
     });
 } 
 
@@ -90,5 +106,6 @@ module.exports = {
     getCheckoutPage,
     getCartPage,
     addToCart,
+    deleteFromCart,
     getOrdersPage
 }

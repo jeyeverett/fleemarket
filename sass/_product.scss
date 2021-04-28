@@ -2,9 +2,11 @@
     width: 100%;
     padding: 0 3rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(30rem, min-content));
+    justify-content: center;
+    align-content: center;
     gap: 3rem;
-    margin: 3rem 0;
+    margin: 2rem 0;
 
     &__title {
         font-size: 2rem;

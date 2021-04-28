@@ -1,11 +1,13 @@
 .card {
+    max-width: 35rem;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
     align-items: center;
     border: 1px solid rgba(black, .1);
     padding: 2rem 0;
     border-radius: 10px;
-    box-shadow: 0 1rem 1.5rem rgba(black, .4);
+    box-shadow: 0 1rem 1.5rem rgba(black, .2);
 
 
     &__header {

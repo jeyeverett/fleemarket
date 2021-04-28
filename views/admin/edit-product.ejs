@@ -11,7 +11,7 @@
             <div class="product-form__control">
                 <label for="title">Title</label>
                 <input class='input' type="text" name="title" id="title" 
-                    value="<%= edit ? product.title : ''%>" required>
+                    value="<%= edit ? product.title : '' %>" required>
             </div>
             <div class="product-form__control">
                 <label for="price">Price</label>
@@ -28,6 +28,7 @@
                 <textarea name="description" id="description" rows="5" 
                     required maxlength="150"><%= edit ? product.description : ''%></textarea>
             </div>
+            <% if (edit) { %><input type="hidden" name="id" value="<%= product.id %>"><% } %> 
             <button class='btn' type="submit"><%= edit ? 'Update Product' : 'Add Product' %></button>
         </form>
     </main>

@@ -5,6 +5,37 @@
     <%- include('../includes/navigation.ejs'); %> 
     <main class="main">
         <h1 class="primary-title">Cart Page</h1>
-        <a href="/checkout" class="btn">Checkout</a>
+            <% if (cartProducts.length) { %> 
+            <div class="cart">
+                <% for (let product of cartProducts) { %> 
+                <article class="cart-item">
+
+                    <h1 class="cart-item__title"><a href="/product-details/<%= product.id %>"><%= product.title %></a></h1>
+
+                    <div class="cart-item__description">
+                        <p class="cart-item__description--text"><%= product.description.slice(0, 50) %>. . .</p>
+                    </div>
+
+                    <span class="cart-item__price">$<%= product.price %></span>
+                    <span class="cart-item__qty">x<%= product.qty %></span>
+                    
+                    <div class="cart-item__actions">
+                        <form action="/cart/delete-product" method="POST">
+                            <button class="cart-item__actions--remove" type="submit">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <input type="hidden" name="productId" value="<%= product.id %>">
+                        </form>
+                    </div>
+
+                </article>
+                <% } %> 
+                <span class="cart__total"><strong>Total:</strong> $<%= totalPrice.toFixed(2) %></span>
+            </div>
+            <% } else { %> 
+                <h2 class="secondary-title">Cart is empty</h2>
+            <% } %> 
+
+        <%- cartProducts.length ? '<a href="/checkout" class="btn mt-lg">Checkout</a>' : '' %> 
     </main>
     <%- include('../includes/end.ejs'); %> 

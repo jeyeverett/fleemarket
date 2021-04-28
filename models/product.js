@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const rootDir = require('../utilities/path');
+const Cart = require('./cart');
 
 const p = path.join(rootDir, 'data', 'products.json');
 
@@ -13,21 +14,37 @@ const getProductsFromFile = func => {
     });
 }
 
+const writeProductsToFile = products => {
+    fs.writeFile(p, JSON.stringify(products), (err) => {
+        if (err) console.log(err);
+    });
+}
+
+const randomId = () => {
+    return Math.floor(Math.random() * 100);
+}
+
 class Product {
-    constructor(title, price, imageUrl, description) {
+    constructor(title, price, imageUrl, description, id) {
         this.title = title;
         this.price = price;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.id = this.randomId();
+        this.id = id; //Id is null for newly created products because we set the id in the "save" method below
     }
 
     save() {
         getProductsFromFile(products => {
-            products.push(this);
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-                if (err) console.log(err);
-            });
+            if (this.id) { //If we are updating an existing product
+                const index = products.findIndex(product => product.id === this.id);
+                const updatedProducts = [...products];
+                updatedProducts[index] = this;
+                writeProductsToFile(updatedProducts);
+            } else {
+                this.id = randomId().toString(); //we assign an id here
+                products.push(this);
+                writeProductsToFile(products);
+            }
         });
     }
 
@@ -37,13 +54,19 @@ class Product {
 
     static findById(id, func) {
         Product.fetchAll(products => {
-            const product = products.find(product => product.id === Number(id) ? product : null);
+            const product = products.find(product => product.id === id ? product : null);
             func(product);
         });
     }
 
-    randomId() {
-        return Math.floor(Math.random() * 100);
+    static findByIdAndDelete(id, func) {
+        getProductsFromFile(products => {
+            const product = products.find(product => product.id === id);
+            const updatedProducts = products.filter(product => product.id !== id );
+            writeProductsToFile(updatedProducts);
+            Cart.deleteProduct(id, product.price);
+            func(updatedProducts);
+        });
     }
 }
 

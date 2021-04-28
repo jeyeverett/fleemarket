@@ -9,14 +9,14 @@
     border: 1px solid rgb(40, 40, 40);
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 1rem 1rem rgba(black, .4);
+    box-shadow: 0 1rem 1rem rgba(black, .2);
     background-color: lightgray;
     transition: all .2s;
     letter-spacing: 1px;
 
     &:hover {
         transform: translateY(-2px) scale(1.05);
-        box-shadow: 0 1.5rem 1.5rem rgba(black, .4);
+        box-shadow: 0 1.5rem 1.5rem rgba(black, .2);
         background-color: rgba(39, 60, 44, .95);
         color: #FFF;
 
@@ -24,6 +24,6 @@
 
     &:active {
         transform: translateY(-1px);
-        box-shadow: 0 1.25rem 1.75rem rgba(black, .4);
+        box-shadow: 0 1.25rem 1.75rem rgba(black, .2);
     }
 }
