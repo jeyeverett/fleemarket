@@ -6,9 +6,10 @@ const {
     getAllProducts, 
     getProductList,
     getShopIndex, 
-    getCheckoutPage, 
+    postOrder,
     getCartPage, 
     addToCart,
+    decreaseCartCount,
     deleteFromCart,
     getOrdersPage,
     getProductDetails 
@@ -20,11 +21,13 @@ router.get('/cart', getCartPage);
 
 router.post('/cart', addToCart);
 
+router.post('/cart/decrease', decreaseCartCount);
+
 router.post('/cart/delete-product', deleteFromCart);
 
 router.get('/orders', getOrdersPage);
 
-router.get('/checkout', getCheckoutPage);
+router.post('/create-order', postOrder);
 
 router.get('/product-details/:productId', getProductDetails);
 

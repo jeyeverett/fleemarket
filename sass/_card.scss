@@ -15,11 +15,13 @@
     }
 
     &__image { 
+        max-height: 20rem;
+        margin-bottom: 1rem;
         img {
             border-radius: 5px;
             box-shadow: 0 1rem 1.5rem rgba(black, .4);
+            height: 100%;
         }
-        margin-bottom: 1rem;
     }
 
     &__content {

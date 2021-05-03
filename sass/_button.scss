@@ -14,6 +14,13 @@
     transition: all .2s;
     letter-spacing: 1px;
 
+    &.btn-lg {
+        padding: 1.5rem 3rem;
+        font-size: 1.4rem;
+        color: #FFF;
+        background-color: rgba(39, 60, 44, .95);
+    }
+
     &:hover {
         transform: translateY(-2px) scale(1.05);
         box-shadow: 0 1.5rem 1.5rem rgba(black, .2);

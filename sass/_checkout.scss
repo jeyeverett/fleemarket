@@ -1,0 +1,24 @@
+.checkout {
+    &__items {
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 1rem 1.5rem rgba(black, .2);
+        min-width: 30rem;
+        padding: 2rem 4rem;
+        margin-bottom: 3rem;
+
+        h1 {
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        &--product {
+            font-size: 1.2rem;
+
+            &-title {
+                font-weight: 600;
+                margin-right: 2rem;
+            }
+        }
+    }
+}

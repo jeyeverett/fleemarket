@@ -4,7 +4,7 @@
 <body>
     <%- include('../includes/navigation.ejs'); %> 
     <main class="main">
-        <h1 class="primary-title">Cart Page</h1>
+        <h1 class="primary-title">Cart</h1>
             <% if (cartProducts.length) { %> 
             <div class="cart">
                 <% for (let product of cartProducts) { %> 
@@ -13,11 +13,21 @@
                     <h1 class="cart-item__title"><a href="/product-details/<%= product.id %>"><%= product.title %></a></h1>
 
                     <div class="cart-item__description">
-                        <p class="cart-item__description--text"><%= product.description.slice(0, 50) %>. . .</p>
+                        <p class="cart-item__description--text"><%= product.description.slice(0, 20) %>. . .</p>
                     </div>
 
                     <span class="cart-item__price">$<%= product.price %></span>
-                    <span class="cart-item__qty">x<%= product.qty %></span>
+                    <div class="cart-item__qty">
+                        <form action="/cart/decrease" method="POST">
+                            <button class="cart-item__qty--button" type="submit">-</button>
+                            <input type="hidden" name="productId" value="<%= product.id %>">
+                        </form>
+                            <%= product.cartItem.quantity %>
+                        <form action="/cart" method="POST">
+                            <button class="cart-item__qty--button" type="submit">+</button>
+                            <input type="hidden" name="productId" value="<%= product.id %>">
+                        </form>
+                    </div>
                     
                     <div class="cart-item__actions">
                         <form action="/cart/delete-product" method="POST">
@@ -30,12 +40,21 @@
 
                 </article>
                 <% } %> 
-                <span class="cart__total"><strong>Total:</strong> $<%= totalPrice.toFixed(2) %></span>
+                <!-- <span class="cart__total"><strong>Total:</strong> $<%= //totalPrice.toFixed(2) %></span> -->
             </div>
             <% } else { %> 
                 <h2 class="secondary-title">Cart is empty</h2>
             <% } %> 
 
-        <%- cartProducts.length ? '<a href="/checkout" class="btn mt-lg">Checkout</a>' : '' %> 
+        <% if (cartProducts.length) { %>
+            <form action="/create-order" method="POST">
+                <button class="btn btn-lg" type="submit">
+                    Checkout
+                </button>
+            </form>
+        <% } else if (orders) { %> 
+            <a href="/orders" class="btn btn-lg mt-lg">Checkout</a>
+        <% } %> 
+ 
     </main>
     <%- include('../includes/end.ejs'); %> 

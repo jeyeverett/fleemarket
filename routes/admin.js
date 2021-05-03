@@ -3,24 +3,24 @@ const router = express.Router();
 
 //Controllers
 const { 
-    getAddProduct, 
-    postAddProduct, 
+    getProductAdd, 
+    postProductAdd, 
     getProducts, 
-    getEditProduct,
-    postEditProduct,
+    getProductEdit,
+    postProductEdit,
     deleteProduct
 } = require('../controllers/admin')
 
 //CREATE
-router.get('/add-product', getAddProduct);
-router.post('/add-product', postAddProduct);
+router.get('/add-product', getProductAdd);
+router.post('/add-product', postProductAdd);
 
 //READ
 router.get('/admin-products', getProducts);
 
 //UPDATE
-router.get('/edit-product/:productId', getEditProduct);
-router.post('/edit-product', postEditProduct);
+router.get('/edit-product/:productId', getProductEdit);
+router.post('/edit-product', postProductEdit);
 
 //DELETE
 router.post('/delete-product', deleteProduct);
