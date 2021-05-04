@@ -5,11 +5,11 @@ const router = express.Router();
 const { 
     getAllProducts, 
     getProductList,
-    getShopIndex, 
+    getShopIndex,
     postOrder,
     getCartPage, 
     addToCart,
-    decreaseCartCount,
+    decreaseCartItemCount,
     deleteFromCart,
     getOrdersPage,
     getProductDetails 
@@ -21,7 +21,7 @@ router.get('/cart', getCartPage);
 
 router.post('/cart', addToCart);
 
-router.post('/cart/decrease', decreaseCartCount);
+router.post('/cart/decrease', decreaseCartItemCount);
 
 router.post('/cart/delete-product', deleteFromCart);
 

@@ -81,17 +81,15 @@ li, a {
   .main-header__nav-item {
     text-transform: uppercase;
     color: #FFF;
-    font-weight: 300;
-    font-size: 1.6rem;
+    font-weight: 400;
+    font-size: 1.4rem;
     padding: 1rem 1rem;
-    border-radius: 6px;
     transition: all .2s;
     cursor: pointer; }
     .main-header__nav-item:not(:last-child) {
       margin-right: 1rem; }
-    .main-header__nav-item:hover, .main-header__nav-item :active {
-      background-color: #FFF;
-      color: #626868; }
+    .main-header__nav-item:hover {
+      border-bottom: 1px solid #FFF; }
     @media only screen and (max-width: 800px) {
       .main-header__nav-item {
         font-size: 1.4rem; } }
@@ -103,9 +101,7 @@ li, a {
         font-size: 1.2rem; } }
 
 .active {
-  background-color: #FFF; }
-  .active a {
-    color: #626868; }
+  border-bottom: 1px solid #FFF; }
 
 .product-form {
   display: flex;
@@ -164,12 +160,12 @@ li, a {
   font-family: inherit;
   font-weight: bold;
   font-size: 1.2rem;
-  color: black;
+  color: rgba(40, 40, 40, 0.8);
   border-radius: 10px;
-  border: 1px solid #282828;
+  border: 1px solid rgba(40, 40, 40, 0.2);
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1rem 1rem rgba(40, 40, 40, 0.2);
   background-color: lightgray;
   transition: all .2s;
   letter-spacing: 1px; }
@@ -278,10 +274,18 @@ li, a {
     text-align: center; }
     .card__actions :first-child {
       margin-bottom: 1rem; }
-  .card__admin :first-child button {
-    background-color: darkgray; }
-  .card__admin :last-child button {
-    background-color: #e05252; }
+  .card__admin {
+    display: flex;
+    flex-direction: row; }
+    .card__admin :first-child {
+      margin-right: 1rem; }
+      .card__admin :first-child button {
+        background-color: transparent; }
+        .card__admin :first-child button:hover {
+          color: rgba(40, 40, 40, 0.8); }
+    .card__admin :last-child button {
+      background-color: transparent;
+      color: #e05252; }
 
 .mt-lg {
   margin-top: 3rem; }
@@ -291,6 +295,15 @@ li, a {
 
 .mt-sm {
   margin-top: 1rem; }
+
+.mb-lg {
+  margin-bottom: 3rem; }
+
+.mb-md {
+  margin-bottom: 2rem; }
+
+.mb-sm {
+  margin-bottom: 1rem; }
 
 .cart {
   display: flex;
@@ -310,7 +323,7 @@ li, a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 0.5px solid rgba(0, 0, 0, 0.4);
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.2);
     margin-bottom: 3rem; }
@@ -368,3 +381,7 @@ li, a {
     .checkout__items--product-title {
       font-weight: 600;
       margin-right: 2rem; }
+
+.checkout__total {
+  text-align: right;
+  font-size: 1.1rem; }

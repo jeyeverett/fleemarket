@@ -47,14 +47,21 @@
     }
 
     &__admin {
+        display: flex;
+        flex-direction: row;
         :first-child {
+            margin-right: 1rem;
             button {
-                background-color: darkgray;
+                background-color: transparent;
+                &:hover{ 
+                    color: rgba(40, 40, 40, 0.8);
+                }
             }
         }
         :last-child {
             button {
-                background-color: hsl(0, 70%, 60%);
+                background-color: transparent;
+                color: hsl(0, 70%, 60%);
             }
         }
     }

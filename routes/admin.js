@@ -4,8 +4,8 @@ const router = express.Router();
 //Controllers
 const { 
     getProductAdd, 
-    postProductAdd, 
-    getProducts, 
+    postProductAdd,
+    getProducts,
     getProductEdit,
     postProductEdit,
     deleteProduct
@@ -18,11 +18,11 @@ router.post('/add-product', postProductAdd);
 //READ
 router.get('/admin-products', getProducts);
 
-//UPDATE
+// //UPDATE
 router.get('/edit-product/:productId', getProductEdit);
 router.post('/edit-product', postProductEdit);
 
-//DELETE
+// //DELETE
 router.post('/delete-product', deleteProduct);
 
 module.exports = router;

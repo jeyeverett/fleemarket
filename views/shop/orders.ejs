@@ -10,13 +10,17 @@
         <% } else { %> 
             <div>
                 <ul class="checkout">
-                    <% orders.forEach(order => { %> 
+                    <% orders.forEach((order, index) => { %> 
                         <li class="checkout__items">
-                            <h1>Order #<%= order.id %></h1>
+                            <h2 class="mb-md">Order #<%= index + 1 %></h2>
                             <ul>
-                                <% order.products.forEach(product => { %> 
-                                <li class="checkout__items--product"><span class="checkout__items--product-title"><%= product.title %></span> x<%= product.orderItem.quantity %></li>
+                                <% order.items.forEach(item => { %> 
+                                    <li class="checkout__items--product mb-sm">
+                                        <span class="checkout__items--product-title"><%= item.title %></span> 
+                                        x<%= item.quantity %>
+                                    </li>
                                 <% }); %> 
+                                <li class="checkout__total">Total: $<%= order.total %> </li>
                             </ul>
                         </li>
                     <% }); %> 
