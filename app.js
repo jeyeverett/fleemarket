@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+
 // Express setup
 app.use(express.static(path.join(__dirname, 'public'))); //Serve static assets
 app.use(express.urlencoded({ extended: true })); //Parse to JSON
@@ -12,33 +13,63 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-//Database
-const { mongoConnect } = require('./utilities/database');
-const User = require('./models/user');
+// Security
+const csrf = require('csurf');
+const csrfProtect = csrf();
 
-//Routes
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+//Database
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+}, err => err ? console.log(err) : '');
+store.on('error', err => console.log(err));
+
+// Models
+const User = require('./models/user');
 
 //Controllers
 const { get404Error } = require('./controllers/errors');
 
+//Routes
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth');
+
 // Middleware
+app.use(session(
+    { 
+        secret: 'thisshouldbealongsecretstring', 
+        resave: false, 
+        saveUninitialized: false,
+        store: store
+    } 
+));
+
+app.use(csrfProtect);
+
 app.use((req, res, next) => {
-    User.findById('609146b28b86cddecd497ff1')
-        .then(user => {
-            req.user = new User(user.name, user.email, user.cart, user._id);
-            next();
-        })
-        .catch(err => console.log(err));
+    if (!req.session.userId) return next();
+
+    User.findById(req.session.userId.toString())
+    .then(user => {
+        req.user = user;
+        next();
+    })
+    .catch(err => console.log(err));
 });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use('*', get404Error);
 
-mongoConnect(() => {
-    app.listen(3000, () => console.log('Server initiated on Port 3000'));
-});
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => app.listen(3000, () => console.log('Server initiated on Port 3000 - MongoDB Connected')))
+    .catch(err => console.log('Database connection failed.', err));
+
+   
 

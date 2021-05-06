@@ -1,4 +1,4 @@
-.product-form {
+.form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,17 +32,6 @@
             color: #FFF;
             text-transform: uppercase;
             font-size: 1.2rem;
-        }
-
-        textarea {
-            width: 100%;
-            max-width: 100%;
-            background-color: hsl(0, 0%, 90%);
-            border-radius: 3px;
-            border: 1px solid rgb(40, 40, 40);
-            padding: .5rem 1rem;
-            outline: none;
-            resize: none;
         }
     }
 }

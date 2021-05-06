@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+// Middleware
+const {
+    isLoggedIn
+} = require('../middleware/is-auth');
+
 //Controllers
 const { 
     getProductAdd, 
@@ -12,17 +17,17 @@ const {
 } = require('../controllers/admin')
 
 //CREATE
-router.get('/add-product', getProductAdd);
-router.post('/add-product', postProductAdd);
+router.get('/add-product', isLoggedIn, getProductAdd);
+router.post('/add-product', isLoggedIn, postProductAdd);
 
 //READ
-router.get('/admin-products', getProducts);
+router.get('/admin-products', isLoggedIn, getProducts);
 
-// //UPDATE
-router.get('/edit-product/:productId', getProductEdit);
-router.post('/edit-product', postProductEdit);
+//UPDATE
+router.get('/edit-product/:productId', isLoggedIn, getProductEdit);
+router.post('/edit-product', isLoggedIn, postProductEdit);
 
-// //DELETE
-router.post('/delete-product', deleteProduct);
+//DELETE
+router.post('/delete-product', isLoggedIn, deleteProduct);
 
 module.exports = router;

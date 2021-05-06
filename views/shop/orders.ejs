@@ -9,18 +9,20 @@
             <h2 class="secondary-title">No Orders!</h1>
         <% } else { %> 
             <div>
-                <ul class="checkout">
+                <ul class="order">
                     <% orders.forEach((order, index) => { %> 
-                        <li class="checkout__items">
+                        <li class="order__items">
                             <h2 class="mb-md">Order #<%= index + 1 %></h2>
                             <ul>
-                                <% order.items.forEach(item => { %> 
-                                    <li class="checkout__items--product mb-sm">
-                                        <span class="checkout__items--product-title"><%= item.title %></span> 
+                                <% order.products.forEach(item => { %> 
+                                    <li class="order__items--product mb-sm">
+                                        <span class="order__items--product-title"><%= item.product.title %></span> 
                                         x<%= item.quantity %>
                                     </li>
                                 <% }); %> 
-                                <li class="checkout__total">Total: $<%= order.total %> </li>
+                                <li class="order__total">
+                                    Total: $<%= order.total.toFixed(2); %> 
+                                </li>
                             </ul>
                         </li>
                     <% }); %> 

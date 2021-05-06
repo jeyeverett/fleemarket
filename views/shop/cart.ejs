@@ -10,31 +10,34 @@
                 <% for (let product of cart) { %> 
                 <article class="cart-item">
 
-                    <h1 class="cart-item__title"><a href="/product-details/<%= product._id %>"><%= product.title %></a></h1>
+                    <h1 class="cart-item__title"><a href="/product-details/<%= product.productId._id %>"><%= product.productId.title %></a></h1>
 
                     <div class="cart-item__description">
-                        <p class="cart-item__description--text"><%= product.description.slice(0, 20) %>. . .</p>
+                        <p class="cart-item__description--text"><%= product.productId.description.slice(0, 20) %>. . .</p>
                     </div>
 
-                    <span class="cart-item__price">$<%= product.price %></span>
+                    <span class="cart-item__price">$<%= product.productId.price %></span>
                     <div class="cart-item__qty">
                         <form action="/cart/decrease" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button class="cart-item__qty--button" type="submit">-</button>
-                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <input type="hidden" name="productId" value="<%= product.productId._id %>">
                         </form>
                             <%= product.quantity %>
                         <form action="/cart" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button class="cart-item__qty--button" type="submit">+</button>
-                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <input type="hidden" name="productId" value="<%= product.productId._id %>">
                         </form>
                     </div>
                     
                     <div class="cart-item__actions">
                         <form action="/cart/delete-product" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button class="cart-item__actions--remove" type="submit">
                                 <i class="fas fa-times"></i>
                             </button>
-                            <input type="hidden" name="productId" value="<%= product._id %>">
+                            <input type="hidden" name="productId" value="<%= product.productId._id %>">
                         </form>
                     </div>
 
@@ -43,6 +46,7 @@
                 <span class="cart__total"><strong>Total:</strong> $<%= total.toFixed(2) %></span>
             </div>
             <form action="/create-order" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="btn btn-lg" type="submit">
                     Checkout
                 </button>

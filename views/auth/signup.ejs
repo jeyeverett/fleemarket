@@ -1,0 +1,25 @@
+<%- include('../includes/head.ejs'); %> 
+
+</head>
+<body>
+    <%- include('../includes/navigation.ejs'); %> 
+    <main class="main">
+        <h1 class="primary-title">Sign Up</h1>
+        <form class='form' action="/signup" method="POST">
+            <div class="form__control">
+                <label for="email">Email</label>
+                <input class='input' type="text" name="email" id="email" required>
+            </div>
+            <div class="form__control">
+                <label for="password">Password</label>
+                <input class='input' type="password" name="password" id="password" required>
+            </div>
+            <div class="form__control">
+                <label for="confirmPassword">Confirm Password</label>
+                <input class='input' type="password" name="confirmPassword" id="confirmPassword" required>
+            </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class='btn' type="submit">Sign up</button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs'); %> 
