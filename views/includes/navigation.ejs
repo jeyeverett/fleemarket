@@ -24,11 +24,11 @@
                 </li>
             <% } %> 
             <% if (!isAuthenticated) { %> 
-                <li class="main-header__nav-item <%= path === '/login' ? 'active' : '' %>">
-                    <a href="/login">Login</a>
-                </li>
                 <li class="main-header__nav-item <%= path === '/signup' ? 'active' : '' %>">
                     <a href="/signup">Signup</a>
+                </li>
+                <li class="main-header__nav-item <%= path === '/login' ? 'active' : '' %>">
+                    <a href="/login">Login</a>
                 </li>
             <% } else { %> 
                 <li>
@@ -68,17 +68,17 @@
                 </li>
             <% } %> 
             <% if (!isAuthenticated) { %> 
-                <li class="mobile-nav__item <%= path === '/login' ? 'active' : '' %>">
-                    <a href="/login">Login</a>
-                </li>
                 <li class="mobile-nav__item <%= path === '/signup' ? 'active' : '' %>">
                     <a href="/signup">Signup</a>
                 </li>
+                <li class="mobile-nav__item <%= path === '/login' ? 'active' : '' %> mt-md">
+                    <a href="/login">Login</a>
+                </li>
             <% } else { %> 
-                <li>
+                <li class="mobile-nav__item">
                     <form action="/logout" method="POST">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <button type="submit" class="mobile-nav__item">Logout</button>
+                        <button type="submit">Logout</button>
                     </form>
                 </li>
             <% } %> 

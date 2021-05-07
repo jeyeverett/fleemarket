@@ -49,9 +49,7 @@ const getProductEdit = (req, res) => {
                     pageTitle: 'Admin | Edit Product', 
                     path: '/admin/edit-product',
                     edit: editMode,
-                    product,
-                    isAuthenticated: req.session.isLoggedIn,
-                    csrfToken: req.csrfToken()
+                    product
                 })
                 :
                 res.status(401).redirect('/'); //Change later to redirect to error page

@@ -9,9 +9,7 @@ const getAllProducts = (req, res) => {
             { 
                 pageTitle: 'Shop', 
                 products: products, 
-                path: '/shop',
-                isAuthenticated: req.session.isLoggedIn,
-                csrfToken: req.csrfToken()
+                path: '/shop'
             });
     }).catch(err => console.log(err));
 }
@@ -24,9 +22,7 @@ const getProductDetails = (req, res) => {
                 { 
                     pageTitle: 'Product List', 
                     product: product, 
-                    path: '/product-list',
-                    isAuthenticated: req.session.isLoggedIn,
-                    csrfToken: req.csrfToken()
+                    path: '/product-list'
                 })
                 :
                 res.status(401).redirect('/');
@@ -41,9 +37,7 @@ const getProductList = (req, res) => {
             { 
                 pageTitle: 'Shop | Product List', 
                 products: products, 
-                path: '/product-list',
-                isAuthenticated: req.session.isLoggedIn,
-                csrfToken: req.csrfToken()
+                path: '/product-list'
             })
         })
         .catch(err => console.log(err));
@@ -53,9 +47,7 @@ const getShopIndex = (req, res) => {
     res.render('shop/index.ejs', 
     { 
         pageTitle: 'Shop | Index Page', 
-        path: '/',
-        isAuthenticated: req.session.isLoggedIn,
-        csrfToken: req.csrfToken()
+        path: '/'
     });
 }
 
@@ -71,9 +63,7 @@ const getCartPage = (req, res) => {
                 total: user.cart.items.reduce((acc, curr) => {
                     const product = curr.productId;
                     return acc + curr.quantity * product.price;
-                }, 0),
-                isAuthenticated: req.session.isLoggedIn,
-                csrfToken: req.csrfToken()
+                }, 0)
             });
         })
         .catch(err => console.log(err));
@@ -107,9 +97,7 @@ const getOrdersPage = (req, res) => {
             { 
                 pageTitle: 'Shop | Orders Page', 
                 path: '/orders',
-                orders,
-                isAuthenticated: req.session.isLoggedIn,
-                csrfToken: req.csrfToken()
+                orders
             });
         })
         .catch(err => console.log(err));

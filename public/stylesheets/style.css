@@ -50,6 +50,22 @@ li, a {
   justify-content: center;
   align-items: center; }
 
+.user-msg {
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(75, 181, 67, 0.5);
+  border: 1px solid rgba(75, 181, 67, 0.75);
+  width: 95%;
+  padding: 1.5rem;
+  border-radius: 5px;
+  text-align: center; }
+  @media screen and (min-width: 900px) {
+    .user-msg {
+      width: 60rem; } }
+  .user-msg--error {
+    background-color: rgba(255, 0, 0, 0.4);
+    border: 1px solid rgba(255, 0, 0, 0.6); }
+
 .error {
   padding: 10rem;
   text-align: center; }
@@ -84,14 +100,29 @@ li, a {
     margin: 0;
     padding: 0; }
   .mobile-nav__item {
-    margin: 1rem;
+    margin: 1rem 0;
     padding: 0; }
   .mobile-nav__item a {
     text-transform: uppercase;
     font-size: 1.6rem;
     padding: 1rem 2rem;
-    color: black;
+    color: rgba(0, 0, 0, 0.75);
     font-weight: 300; }
+  .mobile-nav__item button {
+    text-transform: uppercase;
+    background-color: #FFF;
+    border: none;
+    font-size: 1.6rem;
+    padding: 1rem 2rem;
+    margin: 0;
+    color: rgba(0, 0, 0, 0.75);
+    font-weight: 300;
+    font-family: inherit;
+    cursor: pointer; }
+    .mobile-nav__item button:hover, .mobile-nav__item button:active, .mobile-nav__item button.active {
+      background: rgba(39, 60, 44, 0.95);
+      color: white;
+      border-radius: 10px; }
   .mobile-nav__item a:active,
   .mobile-nav__item a:hover,
   .mobile-nav__item a.active {
@@ -132,6 +163,9 @@ li, a {
 
 .mb-sm {
   margin-bottom: 1rem; }
+
+.center-text {
+  text-align: center; }
 
 .main-header {
   display: flex;
@@ -180,15 +214,16 @@ li, a {
       .main-header__nav-item:last-child:hover {
         background-color: #FFF;
         color: #626868; }
-    @media only screen and (max-width: 800px) {
-      .main-header__nav-item {
-        font-size: 1.4rem; } }
-    @media only screen and (max-width: 700px) {
+    @media only screen and (max-width: 900px) {
       .main-header__nav-item {
         font-size: 1.3rem; } }
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 800px) {
       .main-header__nav-item {
-        font-size: 1.2rem; } }
+        font-size: 1.2rem;
+        margin: 1.5rem 1rem .5rem 1rem; } }
+    @media only screen and (max-width: 700px) {
+      .main-header__nav-item {
+        font-size: 1.1rem; } }
 
 .active {
   border-bottom: 1px solid #FFF; }
@@ -197,13 +232,22 @@ li, a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25%;
+  width: 30%;
   border: 1px solid #282828;
   border-radius: 10px;
   padding: 4rem 4rem;
   background-image: linear-gradient(to bottom, rgba(39, 60, 44, 0.95) 0%, rgba(39, 60, 44, 0.95) 40%, #626868 60%, #626868 100%);
   background-color: rgba(39, 60, 44, 0.5);
   box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.4); }
+  @media only screen and (max-width: 1000px) {
+    .form {
+      width: 50%; } }
+  @media only screen and (max-width: 800px) {
+    .form {
+      width: 75%; } }
+  @media only screen and (max-width: 600px) {
+    .form {
+      width: 90%; } }
   .form__control {
     display: flex;
     flex-direction: column;

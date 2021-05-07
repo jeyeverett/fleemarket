@@ -5,21 +5,14 @@
     <%- include('../includes/navigation.ejs'); %> 
     <main class="main">
         <%- include('../includes/flash-message.ejs', { errorMessage, successMessage }) %> 
-        <h1 class="primary-title">Login</h1>
-        <form class='form' action="/login" method="POST">
+        <h1 class="primary-title">Reset Password</h1>
+        <form class='form' action="/reset" method="POST">
             <div class="form__control">
                 <label for="email">Email</label>
                 <input class='input' type="text" name="email" id="email" required>
             </div>
-            <div class="form__control">
-                <label for="password">Password</label>
-                <input class='input' type="password" name="password" id="password" required>
-            </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class='btn' type="submit">Login</button>
+            <button class='btn' type="submit">Reset Password</button>
         </form>
-        <div class="mt-md">
-            <a href="/reset">Forgot your password? Click here to reset.</a>
-        </div>
     </main>
 <%- include('../includes/end.ejs'); %> 

@@ -38,6 +38,9 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
+// UX
+const flash = require('connect-flash');
+
 // Middleware
 app.use(session(
     { 
@@ -49,6 +52,7 @@ app.use(session(
 ));
 
 app.use(csrfProtect);
+app.use(flash());
 
 app.use((req, res, next) => {
     if (!req.session.userId) return next();
@@ -59,6 +63,14 @@ app.use((req, res, next) => {
         next();
     })
     .catch(err => console.log(err));
+});
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    res.locals.successMessage = req.flash('success');
+    res.locals.errorMessage = req.flash('error');
+    next();
 });
 
 app.use('/admin', adminRoutes);
