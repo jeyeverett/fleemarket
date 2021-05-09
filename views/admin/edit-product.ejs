@@ -29,6 +29,7 @@
                     required maxlength="150"><%= edit ? product.description : ''%></textarea>
             </div>
             <% if (edit) { %><input type="hidden" name="id" value="<%= product._id %>"><% } %> 
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class='btn' type="submit"><%= edit ? 'Update Product' : 'Add Product' %></button>
         </form>
     </main>

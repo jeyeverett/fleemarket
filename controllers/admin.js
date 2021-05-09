@@ -2,7 +2,7 @@ const Product = require('../models/product');
 
 // READ
 const getProducts = (req, res) => {
-    Product.find()
+    Product.find({ userId: req.session.userId })
         .then(products => {
             res.render('admin/admin-products', 
             { 
@@ -61,19 +61,23 @@ const postProductEdit = (req, res) => {
     const { title, price, description, imageUrl, id } = req.body;
     Product.findById(id)
         .then(product => {
+            if (product.userId.toString() !== req.session.userId.toString()) {
+                req.flash('error', 'You are not authorized to edit this product.');
+                return res.redirect('/');
+            }
             product.title = title;
             product.price = price;
             product.description = description;
             product.imageUrl = imageUrl;
-            return product.save();
+            return product.save()
+                .then(() => res.redirect('/admin/admin-products'))
         })
-        .then(() => res.redirect('/admin/admin-products'))
         .catch(err => console.log(err));
 }
 
 // DELETE
 const deleteProduct = (req, res) => {
-   Product.findByIdAndRemove(req.body.id)
+   Product.deleteOne({ _id: req.body.id, userId: req.session.userId })
         .then(() => req.user.deleteFromCart(req.body.id))
         .then(() => res.redirect('/admin/admin-products'))
         .catch(err => console.log(err));
