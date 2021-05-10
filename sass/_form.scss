@@ -32,6 +32,10 @@
         margin-bottom: 3rem;
         width: 100%;
 
+        .invalid {
+            border: 2px solid red;
+        }
+
         input {
             background-color: hsl(0, 0%, 90%);
             border-radius: 3px;

@@ -253,6 +253,8 @@ li, a {
     flex-direction: column;
     margin-bottom: 3rem;
     width: 100%; }
+    .form__control .invalid {
+      border: 2px solid red; }
     .form__control input {
       background-color: #e6e6e6;
       border-radius: 3px;
@@ -342,7 +344,8 @@ li, a {
     width: 70%;
     margin-bottom: 2rem; }
   .card__description {
-    font-size: 1.2rem; }
+    font-size: 1.2rem;
+    overflow: scroll; }
   .card__actions {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
+// MIDDLEWARE
+const {
+    validateLogIn,
+    validateSignUp
+} = require('../middleware/is-valid');
+
 const { 
     getLogin,
     postLogin,
@@ -15,7 +21,9 @@ const {
  
 // LOGIN
 router.get('/login', getLogin);
-router.post('/login', postLogin);
+router.post('/login', 
+    validateLogIn,
+    postLogin);
 
 // PASSWORD RESET
 router.get('/reset/:resetToken', getResetPassword);
@@ -29,7 +37,9 @@ router.post('/logout', postLogout);
 
 // SIGNUP
 router.get('/signup', getSignUp);
-router.post('/signup', postSignUp);
+router.post('/signup', 
+    validateSignUp,
+    postSignUp);
 
 
 module.exports = router;

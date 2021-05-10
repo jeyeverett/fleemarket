@@ -9,15 +9,31 @@
         <form class='form' action="/signup" method="POST">
             <div class="form__control">
                 <label for="email">Email</label>
-                <input class='input' type="text" name="email" id="email" required>
+                <input 
+                    class='<%= validationErrors.find(err => err.param === "email") ? "invalid" : ""%>' 
+                    type="text" 
+                    name="email" 
+                    id="email" 
+                    required
+                    value="<%= input ? input.email : '' %>">
             </div>
             <div class="form__control">
                 <label for="password">Password</label>
-                <input class='input' type="password" name="password" id="password" required>
+                <input 
+                    class='<%= validationErrors.find(err => err.param === "password") ? "invalid" : ""%>' 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    required>
             </div>
             <div class="form__control">
                 <label for="confirmPassword">Confirm Password</label>
-                <input class='input' type="password" name="confirmPassword" id="confirmPassword" required>
+                <input 
+                    class='<%= validationErrors.find(err => err.param === "confirmPassword") ? "invalid" : ""%>'
+                    type="password" 
+                    name="confirmPassword" 
+                    id="confirmPassword" 
+                    required>
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class='btn' type="submit">Sign up</button>

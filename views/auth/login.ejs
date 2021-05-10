@@ -9,11 +9,22 @@
         <form class='form' action="/login" method="POST">
             <div class="form__control">
                 <label for="email">Email</label>
-                <input class='input' type="text" name="email" id="email" required>
+                <input 
+                    class='<%= validationErrors.find(err => err.param === "email") ? "invalid" : ""%>'
+                    type="text" 
+                    name="email" 
+                    id="email"  
+                    required
+                    value="<%= input ? input.email : '' %>">
             </div>
             <div class="form__control">
                 <label for="password">Password</label>
-                <input class='input' type="password" name="password" id="password" required>
+                <input 
+                    class='<%= validationErrors.find(err => err.param === "password") ? "invalid" : ""%>' 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    required>
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class='btn' type="submit">Login</button>

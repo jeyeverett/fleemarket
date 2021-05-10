@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const { check } = require('express-validator');
 
 // Middleware
 const {
     isLoggedIn
 } = require('../middleware/is-auth');
+
+const {
+    validateProduct
+} = require('../middleware/is-valid');
 
 //Controllers
 const { 
@@ -18,14 +23,20 @@ const {
 
 //CREATE
 router.get('/add-product', isLoggedIn, getProductAdd);
-router.post('/add-product', isLoggedIn, postProductAdd);
+router.post('/add-product', 
+    isLoggedIn, 
+    validateProduct,
+    postProductAdd);
 
 //READ
 router.get('/admin-products', isLoggedIn, getProducts);
 
 //UPDATE
 router.get('/edit-product/:productId', isLoggedIn, getProductEdit);
-router.post('/edit-product', isLoggedIn, postProductEdit);
+router.post('/edit-product', 
+    isLoggedIn, 
+    validateProduct, 
+    postProductEdit);
 
 //DELETE
 router.post('/delete-product', isLoggedIn, deleteProduct);

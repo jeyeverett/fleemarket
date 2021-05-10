@@ -1,5 +1,9 @@
 <% if (errorMessage.length) { %> 
-    <div class="user-msg user-msg--error"><%= errorMessage %> </div>
+    <div class="user-msg user-msg--error">
+        <% errorMessage.forEach(error => { %> 
+            <%= error?.msg %><br>
+        <% }); %> 
+    </div>
 <% } else if (successMessage.length) { %> 
     <div class="user-msg"><%= successMessage %> </div>
 <% } %> 

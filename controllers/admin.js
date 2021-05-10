@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const { validationResult } = require('express-validator');
 
 // READ
 const getProducts = (req, res) => {
@@ -8,9 +9,7 @@ const getProducts = (req, res) => {
             { 
                 pageTitle: 'Admin | Products', 
                 products: products, 
-                path: '/admin/admin-products',
-                isAuthenticated: req.session.isLoggedIn,
-                csrfToken: req.csrfToken()
+                path: '/admin/admin-products'
             });
         })
         .catch(err => console.log(err));
@@ -23,13 +22,28 @@ const getProductAdd = (req, res) => {
         pageTitle: 'Admin | Add Product', 
         path: '/admin/add-product',
         edit: false,
-        isAuthenticated: req.session.isLoggedIn,
-        csrfToken: req.csrfToken()
+        validationErrors: [],
+        input: { title: null, price: null, imageUrl: null, description: null }
     });
 }
 
 const postProductAdd = (req, res) => {
     const { title, price, imageUrl, description } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        res.locals.errorMessage = errors.array();
+        return res.status(422)
+            .render('admin/edit-product', 
+                { 
+                    pageTitle: 'Admin | Add Product', 
+                    path: '/admin/add-product',
+                    edit: false,
+                    validationErrors: errors.array(),
+                    input: { title, price, imageUrl, description }
+                });
+    }
+
     const product = new Product({ title, price, description, imageUrl, userId: req.user });
     product.save()
         .then(() => res.redirect('/admin/admin-products'))
@@ -49,7 +63,9 @@ const getProductEdit = (req, res) => {
                     pageTitle: 'Admin | Edit Product', 
                     path: '/admin/edit-product',
                     edit: editMode,
-                    product
+                    product,
+                    validationErrors: [],
+                    input: null
                 })
                 :
                 res.status(401).redirect('/'); //Change later to redirect to error page
@@ -59,6 +75,21 @@ const getProductEdit = (req, res) => {
 
 const postProductEdit = (req, res) => {
     const { title, price, description, imageUrl, id } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        res.locals.errorMessage = errors.array();
+        return res.status(422)
+            .render('admin/edit-product', 
+                { 
+                    pageTitle: 'Admin | Edit Product', 
+                    path: '/admin/edit-product',
+                    edit: true,
+                    validationErrors: errors.array(),
+                    input: { title, price, imageUrl, description }
+                });
+    }
+
     Product.findById(id)
         .then(product => {
             if (product.userId.toString() !== req.session.userId.toString()) {

@@ -4,6 +4,7 @@
 <body>
     <%- include('../includes/navigation.ejs'); %> 
     <main class="main">
+        <%- include('../includes/flash-message.ejs', { errorMessage, successMessage }) %> 
         <h1 class="primary-title">Product Admin</h1>
         <% if (products.length) { %> 
             <div class="product">
