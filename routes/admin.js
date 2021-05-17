@@ -39,6 +39,6 @@ router.post('/edit-product',
     postProductEdit);
 
 //DELETE
-router.post('/delete-product', isLoggedIn, deleteProduct);
+router.delete('/product/:productId', isLoggedIn, deleteProduct);
 
 module.exports = router;

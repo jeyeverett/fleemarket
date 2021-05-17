@@ -84,7 +84,11 @@ const postLogin = (req, res) => {
                     res.redirect('/login'); 
                 });
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+            const error = new Error('Failed login.')
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
 const postLogout = (req, res) => {
@@ -134,7 +138,11 @@ const postResetEmail = (req, res) => {
                         `
                 });
             })
-            .catch(err => console.log(err));
+            .catch(() => {
+                const error = new Error('Failed to sent sent password reset email.')
+                error.httpStatusCode = 500;
+                return next(error);
+            });
     });
 }
 
@@ -156,7 +164,11 @@ const getResetPassword = (req, res) => {
             resetToken: req.params.resetToken
         });
     })
-    .catch(err => console.log(err));
+    .catch(() => {
+        const error = new Error('Failed to find user. Please try again.')
+        error.httpStatusCode = 500;
+        return next(error);
+    });
 }
 
 const postResetPassword = (req, res) => {
@@ -197,7 +209,11 @@ const postResetPassword = (req, res) => {
                 });
             });
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+            const error = new Error('Password reset failed.')
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
 // Sign Up
@@ -251,7 +267,11 @@ const postSignUp = (req, res) => {
             });
         });
     })
-    .catch(err => console.log(err));
+    .catch(() => {
+        const error = new Error('Sign up failed.')
+        error.httpStatusCode = 500;
+        return next(error);
+    });
 }
 
 module.exports = {

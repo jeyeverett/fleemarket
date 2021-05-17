@@ -71,18 +71,23 @@
         }
 
         &__actions {
+            margin-right: 2rem;
             &--remove {
-                border: none;
-                outline: none;
-                margin-right: 2rem;
-                cursor: pointer;
                 font-size: 2rem;
                 color: rgba(39, 60, 44, .8);
+                border: none;
+                outline: none;
+                cursor: pointer;
                 transition: all .2s;
 
                 &:hover {
                     color: darkred;
                 }
+            }
+            
+            &--check {
+                font-size: 2rem;
+                color: rgba(39, 60, 44, .8);
             }
         }
 

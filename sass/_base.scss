@@ -86,3 +86,25 @@ li, a {
         font-size: 2rem;
     }
 }
+
+.pagination {
+    width: 100%;
+    padding-right: 5rem;
+    text-align: right;
+
+    a {
+        padding: 1rem .5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: rgba(39, 60, 44, 1);
+        height: min-content;
+
+        &:hover,
+        &:active,
+        &.active {
+            color: rgba(39, 60, 44, .5);
+            border-bottom: 1px solid rgba(39, 60, 44, .5);
+
+        }
+    }
+}

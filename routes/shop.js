@@ -9,15 +9,16 @@ const {
 //Controllers
 const { 
     getAllProducts, 
-    getProductList,
     getShopIndex,
-    postOrder,
+    getCheckoutSuccess,
     getCartPage, 
     addToCart,
     decreaseCartItemCount,
     deleteFromCart,
     getOrdersPage,
-    getProductDetails 
+    getProductDetails,
+    getInvoice,
+    getCheckoutPage
 } = require('../controllers/shop')
 
 router.get('/', getShopIndex);
@@ -32,13 +33,17 @@ router.post('/cart/delete-product', isLoggedIn, deleteFromCart);
 
 router.get('/orders', isLoggedIn, getOrdersPage);
 
-router.post('/create-order', isLoggedIn, postOrder);
+router.get('/checkout', isLoggedIn, getCheckoutPage);
+
+router.get('/checkout/success', isLoggedIn, getCheckoutSuccess);
+
+router.get('/checkout/cancel', isLoggedIn, getCheckoutPage);
 
 router.get('/product-details/:productId', getProductDetails);
 
 router.get('/shop', getAllProducts);
 
-router.get('/product-list', getProductList);
+router.get('/orders/:orderId', isLoggedIn, getInvoice);
 
 
 module.exports = router;

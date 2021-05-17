@@ -8,7 +8,7 @@
         <h1 class='primary-title'>
             <%= edit ? 'Edit Product' : 'Add Product' %>
         </h1>
-        <form class='form' action="/admin/<%= edit ? 'edit-product' : 'add-product' %>" method="POST">
+        <form class='form' action="/admin/<%= edit ? 'edit-product' : 'add-product' %>" method="POST" enctype="multipart/form-data">
             <div class="form__control">
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" 
@@ -22,10 +22,8 @@
                     step="0.01" value="<%= edit ? product.price : input.price %>" required>
             </div>
             <div class="form__control">
-                <label for="imageUrl">Image URL</label>
-                <input type="text" name="imageUrl" id="imageUrl" 
-                    class='<%= validationErrors.find(err => err.param === "imageUrl") ? "invalid" : ""%>'
-                    value="<%= edit ? product.imageUrl : input.imageUrl %>" required>
+                <label for="image">Image</label>
+                <input type="file" name="image" id="image" <%= !edit ? 'required' : ''%>>
             </div>
             <div class="form__control">
                 <label for="description">Description</label>

@@ -72,6 +72,20 @@ li, a {
   .error__text {
     font-size: 2rem; }
 
+.pagination {
+  width: 100%;
+  padding-right: 5rem;
+  text-align: right; }
+  .pagination a {
+    padding: 1rem .5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #273c2c;
+    height: min-content; }
+    .pagination a:hover, .pagination a:active, .pagination a.active {
+      color: rgba(39, 60, 44, 0.5);
+      border-bottom: 1px solid rgba(39, 60, 44, 0.5); }
+
 @media only screen and (min-width: 601px) {
   .mobile-nav {
     display: none; }
@@ -322,6 +336,7 @@ li, a {
 
 .card {
   min-width: 30rem;
+  min-height: 50rem;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -333,19 +348,24 @@ li, a {
   .card__header {
     margin-bottom: 1rem; }
   .card__image {
+    width: 100%;
+    height: 100%;
+    max-width: 20rem;
     max-height: 20rem;
-    margin-bottom: 1rem; }
+    overflow: hidden;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.4); }
     .card__image img {
-      border-radius: 5px;
-      box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.4);
-      height: 100%; }
+      width: 100%; }
   .card__content {
     text-align: center;
     width: 70%;
     margin-bottom: 2rem; }
   .card__description {
-    font-size: 1.2rem;
-    overflow: scroll; }
+    font-size: 1.2rem; }
   .card__actions {
     display: flex;
     flex-direction: column;
@@ -355,14 +375,12 @@ li, a {
       margin-bottom: 1rem; }
   .card__admin {
     display: flex;
-    flex-direction: row; }
-    .card__admin :first-child {
-      margin-right: 1rem; }
-      .card__admin :first-child button {
-        background-color: transparent; }
-        .card__admin :first-child button:hover {
-          color: rgba(40, 40, 40, 0.8); }
-    .card__admin :last-child button {
+    flex-direction: row;
+    margin: 0; }
+    .card__admin--edit {
+      margin-right: 1rem;
+      background-color: transparent; }
+    .card__admin--delete {
       background-color: transparent;
       color: #e05252; }
 
@@ -416,16 +434,20 @@ li, a {
           margin-right: 1.2rem; }
         .cart .cart-item__qty--button:last-of-type {
           margin-left: 1rem; }
-    .cart .cart-item__actions--remove {
-      border: none;
-      outline: none;
-      margin-right: 2rem;
-      cursor: pointer;
-      font-size: 2rem;
-      color: rgba(39, 60, 44, 0.8);
-      transition: all .2s; }
-      .cart .cart-item__actions--remove:hover {
-        color: darkred; }
+    .cart .cart-item__actions {
+      margin-right: 2rem; }
+      .cart .cart-item__actions--remove {
+        font-size: 2rem;
+        color: rgba(39, 60, 44, 0.8);
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: all .2s; }
+        .cart .cart-item__actions--remove:hover {
+          color: darkred; }
+      .cart .cart-item__actions--check {
+        font-size: 2rem;
+        color: rgba(39, 60, 44, 0.8); }
 
 .order__items {
   text-align: center;

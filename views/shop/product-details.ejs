@@ -7,7 +7,7 @@
         <h1 class="primary-title"><%= product.title %></h1>
         <article class="card product__item">
             <div class="card__image mt-md">
-                <img src="https://picsum.photos/id/<%= '5' + Math.floor(Math.random() * 100) %>/200" alt="<%= product.title %>">
+                <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
             </div>
             <div class="card__content">
                 <h2 class="card__price">$<%= product.price %></h2>

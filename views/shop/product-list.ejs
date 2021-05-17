@@ -4,7 +4,7 @@
 <body>
     <%- include('../includes/navigation.ejs'); %> 
     <main class="main">
-        <h1 class="primary-title">My Products</h1>
+        <h1 class="primary-title">Shop</h1>
         <% if (products.length) { %> 
             <div class="product">
                 <% for (product of products) { %> 
@@ -13,7 +13,7 @@
                             <h1 class="product__title"><%= product.title %></h1>
                         </header>
                         <div class="card__image">
-                            <img src="https://picsum.photos/id/<%= '5' + Math.floor(Math.random() * 100) %>/200" alt="<%= product.title %>" width="200px">
+                            <img src="/<%= product.imageUrl %>" alt="<%= product.title %>" width="200px">
                         </div>
                         <div class="card__content">
                             <h2 class="card__price">$<%= product.price %></h2>
@@ -28,6 +28,7 @@
                     </article>
                 <% } %> 
             </div>
+            <%- include('../includes/pagination.ejs', pageInfo); %> 
         <% } else { %> 
             <h2 class="secondary-title">No Products Found!</h1>
         <% } %>

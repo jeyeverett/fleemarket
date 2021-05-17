@@ -5,6 +5,7 @@ const app = express();
 
 // Express setup
 app.use(express.static(path.join(__dirname, 'public'))); //Serve static assets
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.urlencoded({ extended: true })); //Parse to JSON
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -31,17 +32,33 @@ store.on('error', err => console.log(err));
 const User = require('./models/user');
 
 //Controllers
-const { get404Error } = require('./controllers/errors');
+const { getError404, getError500 } = require('./controllers/errors');
 
 //Routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-// UX
-const flash = require('connect-flash');
-
 // Middleware
+const flash = require('connect-flash');
+const multer = require('multer');
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
 app.use(session(
     { 
         secret: 'thisshouldbealongsecretstring', 
@@ -51,19 +68,9 @@ app.use(session(
     } 
 ));
 
+app.use(multer({ storage: fileStorage, fileFilter }).single('image'));
 app.use(csrfProtect);
 app.use(flash());
-
-app.use((req, res, next) => {
-    if (!req.session.userId) return next();
-
-    User.findById(req.session.userId.toString())
-    .then(user => {
-        req.user = user;
-        next();
-    })
-    .catch(err => console.log(err));
-});
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -73,11 +80,37 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    if (!req.session.userId) return next();
+    User.findById(req.session.userId.toString())
+    .then(user => {
+        if (!user) return next();
+        req.user = user;
+        next();
+    })
+    .catch(() => {
+        const error = new Error('Failed to find user.')
+        error.httpStatusCode = 500;
+        return next(error);
+    });
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
 
-app.use('*', get404Error);
+app.use('*', getError404);
+
+app.use((error, req, res, next) => {
+    return res.status(500).render('500', 
+        { 
+            pageTitle: 'Error 500 | Server-Side Error', 
+            path: '500',
+            errorMsg: error
+        });
+});
+
+
 
 mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => app.listen(3000, () => console.log('Server initiated on Port 3000 - MongoDB Connected')))

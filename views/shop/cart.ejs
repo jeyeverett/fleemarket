@@ -45,15 +45,15 @@
                 <% } %> 
                 <span class="cart__total"><strong>Total:</strong> $<%= total.toFixed(2) %></span>
             </div>
-            <form action="/create-order" method="POST">
+            <!-- <form action="/create-order" method="POST">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="btn btn-lg" type="submit">
                     Checkout
                 </button>
-            </form>
+            </form> -->
+            <a href="/checkout" class="btn btn-lg mt-lg">Checkout</a>
             <% } else { %> 
                 <h2 class="secondary-title">Cart is empty</h2>
             <% } %> 
-           <!-- <a href="/orders" class="btn btn-lg mt-lg">Checkout</a> -->
     </main>
     <%- include('../includes/end.ejs'); %> 

@@ -6,9 +6,6 @@
             <li class="main-header__nav-item <%= path === '/shop' ? 'active' : '' %>">
                 <a href="/shop">Shop</a>
             </li>
-            <li class="main-header__nav-item <%= path === '/product-list' ? 'active' : '' %>">
-                <a href="/product-list">Products</a>
-            </li>
             <% if (isAuthenticated) { %> 
                 <li class="main-header__nav-item <%= path === '/cart' ? 'active' : '' %>">
                     <a href="/cart">Cart</a>
@@ -47,9 +44,6 @@
     <ul class="mobile-nav__item-list">
             <li class="mobile-nav__item">
                 <a class="<%= path === '/' ? 'active' : '' %>" href="/">Shop</a>
-            </li>
-            <li class="mobile-nav__item">
-                <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
             </li>
             <% if (isAuthenticated) { %> 
                 <li class="mobile-nav__item">

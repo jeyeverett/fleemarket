@@ -21,7 +21,8 @@
                                     </li>
                                 <% }); %> 
                                 <li class="order__total">
-                                    Total: $<%= order.total.toFixed(2); %> 
+                                    Total: $<%= order.total.toFixed(2); %><br>
+                                    <a href="/orders/<%= order._id %> " target="_blank">Invoice</a>
                                 </li>
                             </ul>
                         </li>

@@ -1,6 +1,7 @@
 <% if (errorMessage.length) { %> 
     <div class="user-msg user-msg--error">
         <% errorMessage.forEach(error => { %> 
+            <% console.log(error?.msg); %>
             <%= error?.msg %><br>
         <% }); %> 
     </div>

@@ -12,10 +12,6 @@ const validateProduct = [
         .trim()
         .isCurrency()
         .withMessage('Please enter a valid price.'),
-    check('imageUrl')
-        .trim()
-        .isURL()
-        .withMessage('Please enter a valid URL'),
     check('description')
         .trim()
         .isLength({ min: 50 })

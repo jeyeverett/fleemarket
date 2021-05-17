@@ -1,18 +1,45 @@
-const Product = require('../models/product');
 const { validationResult } = require('express-validator');
+const { deleteFile } = require('../utilities/file');
+
+// Models
+const Product = require('../models/product');
+
+const ITEMS_PER_PAGE = 6;
 
 // READ
-const getProducts = (req, res) => {
+const getProducts = (req, res, next) => {
+    const page = req.query.page ? Number(req.query.page) : 1;
+    let totalItems;
+
     Product.find({ userId: req.session.userId })
+        .countDocuments()
+        .then(numProducts => {
+            totalItems = numProducts;
+            return Product.find()
+                .skip((page - 1) * ITEMS_PER_PAGE)
+                .limit(ITEMS_PER_PAGE);
+        })
         .then(products => {
             res.render('admin/admin-products', 
             { 
                 pageTitle: 'Admin | Products', 
                 products: products, 
-                path: '/admin/admin-products'
+                path: '/admin/admin-products',
+                pageInfo: {
+                    currentPage: page,
+                    hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+                    hasPrevPage: page > 1,
+                    nextPage: page + 1,
+                    prevPage: page - 1,
+                    lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+                }
             });
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+            const error = new Error('Failed to create new product.')
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
 // CREATE
@@ -27,9 +54,23 @@ const getProductAdd = (req, res) => {
     });
 }
 
-const postProductAdd = (req, res) => {
-    const { title, price, imageUrl, description } = req.body;
+const postProductAdd = (req, res, next) => {
+    const { title, price, description } = req.body;
+    const image = req.file;
     const errors = validationResult(req);
+
+    if (!image) {
+        res.locals.errorMessage = [{ msg: 'Attached file must be an image in .png or .jpg format.'}];
+        return res.status(422)
+            .render('admin/edit-product', 
+                { 
+                    pageTitle: 'Admin | Add Product', 
+                    path: '/admin/add-product',
+                    edit: false,
+                    validationErrors: [],
+                    input: { title, price, description }
+                });
+    }
 
     if (!errors.isEmpty()) {
         res.locals.errorMessage = errors.array();
@@ -40,20 +81,30 @@ const postProductAdd = (req, res) => {
                     path: '/admin/add-product',
                     edit: false,
                     validationErrors: errors.array(),
-                    input: { title, price, imageUrl, description }
+                    input: { title, price, description }
                 });
     }
+
+    const imageUrl = image.path;
 
     const product = new Product({ title, price, description, imageUrl, userId: req.user });
     product.save()
         .then(() => res.redirect('/admin/admin-products'))
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            const error = new Error('Failed to create new product.')
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
 // UPDATE
-const getProductEdit = (req, res) => {
+const getProductEdit = (req, res, next) => {
     const editMode = req.query.edit;
-    if (!editMode) return res.redirect('/');
+    if (!editMode) { 
+        req.flash('error', 'You are not authorized to access this page. If this is your product, please login.');
+        return res.redirect('/')
+    };
     const productId = req.params.productId;
     Product.findById(productId)
         .then(product => {
@@ -70,11 +121,16 @@ const getProductEdit = (req, res) => {
                 :
                 res.status(401).redirect('/'); //Change later to redirect to error page
         })
-        .catch(err => console.log(err));
+        .catch(() => {
+            const error = new Error('Failed to create new product.')
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
-const postProductEdit = (req, res) => {
-    const { title, price, description, imageUrl, id } = req.body;
+const postProductEdit = (req, res, next) => {
+    const { title, price, description, id } = req.body;
+    const image = req.file;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -86,7 +142,7 @@ const postProductEdit = (req, res) => {
                     path: '/admin/edit-product',
                     edit: true,
                     validationErrors: errors.array(),
-                    input: { title, price, imageUrl, description }
+                    input: { title, price, description }
                 });
     }
 
@@ -99,22 +155,33 @@ const postProductEdit = (req, res) => {
             product.title = title;
             product.price = price;
             product.description = description;
-            product.imageUrl = imageUrl;
-            return product.save()
-                .then(() => res.redirect('/admin/admin-products'))
+            if (image) {
+                deleteFile(product.imageUrl);
+                product.imageUrl = image.path;
+            }
+            return product.save();
         })
-        .catch(err => console.log(err));
+        .then(() => res.redirect('/admin/admin-products'))
+        .catch(err => {
+            console.log(err);
+            const error = new Error('Failed to update product, please try again.')
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 }
 
 // DELETE
-const deleteProduct = (req, res) => {
-   Product.deleteOne({ _id: req.body.id, userId: req.session.userId })
-        .then(() => req.user.deleteFromCart(req.body.id))
-        .then(() => res.redirect('/admin/admin-products'))
-        .catch(err => console.log(err));
+const deleteProduct = (req, res, next) => {
+    const id = req.params.productId;
+    const imageUrl = req.query.imageUrl;
+    deleteFile(imageUrl);
+    Product.deleteOne({ _id: id, userId: req.session.userId })
+        .then(() => req.user.deleteFromCart(id))
+        .then(() => res.status(200).json({ message: 'Success.' }))
+        .catch(() => {
+            res.status(500).json({ message: 'Product deletion failed.' });
+        });
 }
-
-
 
 module.exports = {
     getProductAdd,
@@ -124,3 +191,4 @@ module.exports = {
     postProductEdit,
     deleteProduct
 }
+
