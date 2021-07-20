@@ -1,3 +1,5 @@
 node_modules
 .env
 images
+server.cert
+server.key

@@ -1,10 +1,16 @@
 // Node
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const app = express();
+
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
+
+const https = require('https');
+const privateKey = fs.readFileSync('server.key');
+const certificate = fs.readFileSync('server.cert');
 
 // Helmet
 const scriptSrcUrls = [
@@ -38,7 +44,12 @@ app.use(
 );
 
 // Express setup
-app.use(morgan('combined'));
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),
+  { flags: 'a' }
+);
+
+app.use(morgan('combined', { stream: accessLogStream }));
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public'))); //Serve static assets
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -159,6 +170,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() =>
+    // https
+    //   .createServer({ key: privateKey, cert: certificate }, app)
     app.listen(port, () =>
       console.log(`Server initiated on Port ${port} - MongoDB Connected`)
     )
