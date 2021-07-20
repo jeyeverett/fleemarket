@@ -2,6 +2,38 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const helmet = require('helmet');
+
+// Helmet
+const scriptSrcUrls = [
+  'https://js.stripe.com',
+  'https://js.stripe.com/v3',
+  'https://cdnjs.cloudflare.com',
+];
+const styleSrcUrls = [
+  'https://kit-free.fontawesome.com',
+  'https://fonts.googleapis.com',
+  'https://use.fontawesome.com',
+  'https://cdnjs.cloudflare.com',
+];
+
+const fontSrcUrls = [
+  'fonts.googleapis.com',
+  'fonts.gstatic.com',
+  'https://cdnjs.cloudflare.com',
+];
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      'default-src': ["'self'"],
+      'script-src': ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
+      'style-src': ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+      'frame-src': ["'self'", 'https://js.stripe.com'],
+      'font-src': ["'self'", ...fontSrcUrls],
+    },
+  })
+);
 
 // Express setup
 app.use(express.static(path.join(__dirname, 'public'))); //Serve static assets
