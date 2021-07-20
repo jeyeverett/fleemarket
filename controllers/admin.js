@@ -91,7 +91,6 @@ const postProductAdd = (req, res, next) => {
     product.save()
         .then(() => res.redirect('/admin/admin-products'))
         .catch(err => {
-            console.log(err);
             const error = new Error('Failed to create new product.')
             error.httpStatusCode = 500;
             return next(error);

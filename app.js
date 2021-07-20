@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
+  require('dotenv').config();
 }
 
 // Security
@@ -22,17 +22,20 @@ const csrfProtect = csrf();
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const store = new MongoDBStore({
+const store = new MongoDBStore(
+  {
     uri: process.env.MONGO_URI,
-    collection: 'sessions'
-}, err => err ? console.log(err) : '');
-store.on('error', err => console.log(err));
+    collection: 'sessions',
+  },
+  (err) => (err ? console.log(err) : '')
+);
+store.on('error', (err) => console.log(err));
 
 // Models
 const User = require('./models/user');
 
 //Controllers
-const { getError404, getError500 } = require('./controllers/errors');
+const { getError404 } = require('./controllers/errors');
 
 //Routes
 const adminRoutes = require('./routes/admin');
@@ -43,55 +46,59 @@ const authRoutes = require('./routes/auth');
 const flash = require('connect-flash');
 const multer = require('multer');
 const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'images')
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  },
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
 };
 
-app.use(session(
-    { 
-        secret: 'thisshouldbealongsecretstring', 
-        resave: false, 
-        saveUninitialized: false,
-        store: store
-    } 
-));
+app.use(
+  session({
+    secret: 'thisshouldbealongsecretstring',
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
+);
 
 app.use(multer({ storage: fileStorage, fileFilter }).single('image'));
 app.use(csrfProtect);
 app.use(flash());
 
 app.use((req, res, next) => {
-    res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
-    res.locals.successMessage = req.flash('success');
-    res.locals.errorMessage = req.flash('error');
-    next();
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  res.locals.successMessage = req.flash('success');
+  res.locals.errorMessage = req.flash('error');
+  next();
 });
 
 app.use((req, res, next) => {
-    if (!req.session.userId) return next();
-    User.findById(req.session.userId.toString())
-    .then(user => {
-        if (!user) return next();
-        req.user = user;
-        next();
+  if (!req.session.userId) return next();
+  User.findById(req.session.userId.toString())
+    .then((user) => {
+      if (!user) return next();
+      req.user = user;
+      next();
     })
     .catch(() => {
-        const error = new Error('Failed to find user.')
-        error.httpStatusCode = 500;
-        return next(error);
+      const error = new Error('Failed to find user.');
+      error.httpStatusCode = 500;
+      return next(error);
     });
 });
 
@@ -102,19 +109,21 @@ app.use(authRoutes);
 app.use('*', getError404);
 
 app.use((error, req, res, next) => {
-    return res.status(500).render('500', 
-        { 
-            pageTitle: 'Error 500 | Server-Side Error', 
-            path: '500',
-            errorMsg: error
-        });
+  return res.status(500).render('500', {
+    pageTitle: 'Error 500 | Server-Side Error',
+    path: '500',
+    errorMsg: error,
+  });
 });
 
-
-
-mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(() => app.listen(3000, () => console.log('Server initiated on Port 3000 - MongoDB Connected')))
-    .catch(err => console.log('Database connection failed.', err));
-
-   
-
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() =>
+    app.listen(3000, () =>
+      console.log('Server initiated on Port 3000 - MongoDB Connected')
+    )
+  )
+  .catch((err) => console.log('Database connection failed.', err));

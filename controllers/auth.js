@@ -230,7 +230,6 @@ const getSignUp = (req, res) => {
 const postSignUp = (req, res) => {
     const { email, password } = req.body;
     const errors = validationResult(req);
-    console.log(errors.array());
     if (!errors.isEmpty()) {
         res.locals.errorMessage = errors.array();
         return res.status(422)
@@ -244,34 +243,34 @@ const postSignUp = (req, res) => {
     }
 
     bcrypt.hash(password, 12)
-    .then(hashedPassword => {
-        const newUser = new User({ 
-                email,
-                password: hashedPassword, 
-                cart: { items: [] } 
+        .then(hashedPassword => {
+            const newUser = new User({ 
+                    email,
+                    password: hashedPassword, 
+                    cart: { items: [] } 
+                });
+            return newUser.save();
+        })
+        .then(user => {
+            req.flash('success', "Welcome to the site!");
+            req.session.isLoggedIn = true;
+            req.session.userId = user._id;
+            return req.session.save(err => {
+                err ? console.log(err) : '';
+                res.redirect('/');
+                transporter.sendMail({
+                    to: email,
+                    from: 'shop@node-ecommerce.com',
+                    subject: 'Sign Up',
+                    html: '<h1>You successfully signed up.</h1>'
+                });
             });
-        return newUser.save();
-    })
-    .then(user => {
-        req.flash('success', "Welcome to the site!");
-        req.session.isLoggedIn = true;
-        req.session.userId = user._id;
-        return req.session.save(err => {
-            err ? console.log(err) : '';
-            res.redirect('/');
-            transporter.sendMail({
-                to: email,
-                from: 'shop@node-ecommerce.com',
-                subject: 'Sign Up',
-                html: '<h1>You successfully signed up.</h1>'
-            });
+        })
+        .catch(() => {
+            const error = new Error('Sign up failed.')
+            error.httpStatusCode = 500;
+            return next(error);
         });
-    })
-    .catch(() => {
-        const error = new Error('Sign up failed.')
-        error.httpStatusCode = 500;
-        return next(error);
-    });
 }
 
 module.exports = {
