@@ -116,14 +116,15 @@ app.use((error, req, res, next) => {
   });
 });
 
+const port = process.env.PORT || 3000;
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() =>
-    app.listen(3000, () =>
-      console.log('Server initiated on Port 3000 - MongoDB Connected')
+    app.listen(port, () =>
+      console.log(`Server initiated on Port ${port} - MongoDB Connected`)
     )
   )
   .catch((err) => console.log('Database connection failed.', err));
