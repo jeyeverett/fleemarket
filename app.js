@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
 // Helmet
 const scriptSrcUrls = [
@@ -36,6 +38,8 @@ app.use(
 );
 
 // Express setup
+app.use(morgan('combined'));
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public'))); //Serve static assets
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.urlencoded({ extended: true })); //Parse to JSON
