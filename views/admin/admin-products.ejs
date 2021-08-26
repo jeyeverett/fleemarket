@@ -13,7 +13,7 @@
                         
                         <div class="card__image">
                             <a href="/product-details/<%= product._id %> ">
-                                <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
+                                <img src="<%= product.image.url %>" alt="<%= product.title %>">
                             </a>
                         </div>
                         <header class="card__header">
@@ -33,7 +33,7 @@
                             </a>
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <input type="hidden" name="id" value="<%= product._id %>">
-                            <input type="hidden" name="imageUrl" value="<%= product.imageUrl %>">
+                            <input type="hidden" name="imageFilename" value="<%= product.image.filename %>">
                         </div>
                     </article>
                 <% } %> 

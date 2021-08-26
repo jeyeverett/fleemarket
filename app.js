@@ -43,6 +43,12 @@ app.use(
       'style-src': ["'self'", "'unsafe-inline'", ...styleSrcUrls],
       'frame-src': ["'self'", 'https://js.stripe.com'],
       'font-src': ["'self'", ...fontSrcUrls],
+      'img-src': [
+        "'self'",
+        'blob:',
+        'data:',
+        'https://res.cloudinary.com/dnpfrwpiq/',
+      ],
     },
   })
 );
@@ -95,27 +101,27 @@ const authRoutes = require('./routes/auth');
 
 // Middleware
 const flash = require('connect-flash');
-const multer = require('multer');
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'images');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  },
-});
+// const multer = require('multer');
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'images');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + '-' + file.originalname);
+//   },
+// });
 
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg' ||
-    file.mimetype === 'image/jpeg'
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+// const fileFilter = (req, file, cb) => {
+//   if (
+//     file.mimetype === 'image/png' ||
+//     file.mimetype === 'image/jpg' ||
+//     file.mimetype === 'image/jpeg'
+//   ) {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
 
 app.use(
   session({
@@ -125,8 +131,9 @@ app.use(
     store: store,
   })
 );
-
-app.use(multer({ storage: fileStorage, fileFilter }).single('image'));
+const multer = require('multer');
+const { storage } = require('./cloudinary');
+app.use(multer({ storage }).any());
 app.use(csrfProtect);
 app.use(flash());
 

@@ -14,9 +14,9 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  imageUrl: {
-    type: String,
-    required: true,
+  image: {
+    url: String,
+    filename: String,
   },
   owner: {
     userId: {

@@ -12,7 +12,7 @@
                         
                         <div class="card__image">
                             <a href="/product-details/<%= product._id %> ">
-                                <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
+                                <img src="<%= product.image.url %>" alt="<%= product.title %>">
                             </a>
                             <% if (isAuthenticated) { %> 
                                 <%- include('../includes/add-to-cart.ejs') %> 

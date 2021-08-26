@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { deleteFile } = require('../utilities/file');
-
+const { cloudinary } = require('../cloudinary');
 // Models
 const Product = require('../models/product');
 
@@ -47,13 +47,13 @@ const getProductAdd = (req, res) => {
     path: '/admin/add-product',
     edit: false,
     validationErrors: [],
-    input: { title: null, price: null, imageUrl: null, description: null },
+    input: { title: null, price: null, image: null, description: null },
   });
 };
 
 const postProductAdd = (req, res, next) => {
   const { title, price, description } = req.body;
-  const image = req.file;
+  const image = req.files[0];
   const errors = validationResult(req);
 
   if (!image) {
@@ -70,7 +70,6 @@ const postProductAdd = (req, res, next) => {
   }
 
   if (!errors.isEmpty()) {
-    deleteFile(image.path);
     res.locals.errorMessage = errors.array();
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Admin | Add Product',
@@ -81,19 +80,18 @@ const postProductAdd = (req, res, next) => {
     });
   }
 
-  const imageUrl = image.path;
-
   const product = new Product({
     title,
     price,
     description,
-    imageUrl,
+    image: { url: image.path, filename: image.filename },
     owner: { userId: req.user._id, name: req.user.sellerName },
   });
   product
     .save()
     .then(() => res.redirect('/admin/admin-products'))
     .catch((err) => {
+      console.log(err);
       const error = new Error('Failed to create new product.');
       error.httpStatusCode = 500;
       return next(error);
@@ -133,7 +131,7 @@ const getProductEdit = (req, res, next) => {
 
 const postProductEdit = (req, res, next) => {
   const { title, price, description, id } = req.body;
-  const image = req.file;
+  const image = req.files[0];
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -148,7 +146,7 @@ const postProductEdit = (req, res, next) => {
   }
 
   Product.findById(id)
-    .then((product) => {
+    .then(async (product) => {
       if (product.owner.userId.toString() !== req.session.userId.toString()) {
         req.flash('error', 'You are not authorized to edit this product.');
         return res.redirect('/');
@@ -157,14 +155,13 @@ const postProductEdit = (req, res, next) => {
       product.price = price;
       product.description = description;
       if (image) {
-        deleteFile(product.imageUrl);
-        product.imageUrl = image.path;
+        await cloudinary.uploader.destroy(product.image.filename);
+        product.image = { url: image.path, filename: image.filename };
       }
       return product.save();
     })
     .then(() => res.redirect('/admin/admin-products'))
     .catch((err) => {
-      console.log(err);
       const error = new Error('Failed to update product, please try again.');
       error.httpStatusCode = 500;
       return next(error);
@@ -172,11 +169,15 @@ const postProductEdit = (req, res, next) => {
 };
 
 // DELETE
-const deleteProduct = (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
   const id = req.params.productId;
-  const imageUrl = req.query.imageUrl;
-  deleteFile(imageUrl);
-  Product.deleteOne({ _id: id, userId: req.session.userId })
+  const filename = req.query.imageFilename;
+  try {
+    await cloudinary.uploader.destroy(filename);
+  } catch (err) {
+    return next(err);
+  }
+  Product.deleteOne({ _id: id, 'owner.userId': req.session.userId })
     .then(() => req.user.deleteFromCart(id))
     .then(() => res.status(200).json({ message: 'Success.' }))
     .catch(() => {

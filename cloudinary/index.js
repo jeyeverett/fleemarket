@@ -13,7 +13,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'fleemarket', //this is the folder in cloudinary we will store our stuff in
+    folder: 'fleemarket',
     allowedFormat: ['jpeg', 'png', 'jpg'],
   },
 });
