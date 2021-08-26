@@ -13,20 +13,6 @@
             <li class="main-header__nav-item <%= path === '/shop' ? 'active' : '' %>">
                 <a href="/shop">Shop</a>
             </li>
-            <% if (isAuthenticated) { %> 
-                <li class="main-header__nav-item <%= path === '/cart' ? 'active' : '' %>">
-                    <a href="/cart">Cart</a>
-                </li>
-                <li class="main-header__nav-item <%= path === '/orders' ? 'active' : '' %>">
-                    <a href="/orders">Orders</a>
-                </li>
-                <li class="main-header__nav-item <%= path === '/admin/add-product' ? 'active' : '' %>">
-                    <a href="/admin/add-product">Add Product</a>
-                </li>
-                <li class="main-header__nav-item <%= path === '/admin/admin-products' ? 'active' : '' %>">
-                    <a href="/admin/admin-products">Manage Products</a>
-                </li>
-            <% } %> 
             <% if (!isAuthenticated) { %> 
                 <li class="main-header__nav-item <%= path === '/signup' ? 'active' : '' %>">
                     <a href="/signup">Signup</a>
@@ -35,10 +21,10 @@
                     <a href="/login">Login</a>
                 </li>
             <% } else { %> 
-                <li>
+                <li class="main-header__nav-item">
                     <form action="/logout" method="POST">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <button type="submit" class="main-header__nav-item">Logout</button>
+                        <button type="submit">Logout</button>
                     </form>
                 </li>
             <% } %> 
@@ -91,7 +77,7 @@
         <p class="index-page__description">FleeMarket is an auction-style marketplace where you can bid, buy, and sell goods online</p>
         <a href="/shop" class="index-page__enter">Find your next deal!</a>
 
-        <p class="index-page__disclaimer">(website currently undergoing facial reconstruction)</p>
+        <p class="index-page__disclaimer">website currently undergoing facial reconstruction</p>
     </main>
     <%- include('../includes/end.ejs'); %> 
  

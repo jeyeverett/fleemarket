@@ -149,7 +149,7 @@ const postProductEdit = (req, res, next) => {
 
   Product.findById(id)
     .then((product) => {
-      if (product.userId.toString() !== req.session.userId.toString()) {
+      if (product.owner.userId.toString() !== req.session.userId.toString()) {
         req.flash('error', 'You are not authorized to edit this product.');
         return res.redirect('/');
       }

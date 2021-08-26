@@ -16,7 +16,6 @@ body {
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
   line-height: 1.7;
-  padding-bottom: 2rem;
 }
 
 li,
@@ -76,16 +75,26 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 600px) {
+    padding: 0 1rem;
+  }
 
   &__primary-title {
     color: white;
     font-size: 40px;
     letter-spacing: 1px;
+
+    @media screen and (max-width: 600px) {
+      font-size: 18px;
+    }
   }
 
   &__description {
     color: white;
     font-size: 17px;
+    @media screen and (max-width: 600px) {
+      font-size: 12px;
+    }
   }
 
   &__disclaimer {
@@ -97,6 +106,10 @@ a {
     padding: 1rem 2rem;
     position: absolute;
     bottom: 1rem;
+    @media screen and (max-width: 600px) {
+      font-size: 12px;
+      padding: 0.5rem 0.75rem;
+    }
   }
 
   &__enter {
@@ -113,6 +126,12 @@ a {
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+      padding: 1rem 2rem;
+      margin-top: 2rem;
     }
   }
 }

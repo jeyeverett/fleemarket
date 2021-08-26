@@ -12,6 +12,14 @@ const https = require('https');
 const privateKey = fs.readFileSync('server.key');
 const certificate = fs.readFileSync('server.cert');
 
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else next();
+  });
+}
+
 // Helmet
 const scriptSrcUrls = [
   'https://js.stripe.com',
