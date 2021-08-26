@@ -9,21 +9,23 @@
             <div class="product">
                 <% for (product of products) { %> 
                     <article class="card product__item">
-                        <header class="card__header">
-                            <h1 class="product__title"><%= product.title %></h1>
-                        </header>
+                        
                         <div class="card__image">
-                            <img src="/<%= product.imageUrl %>" alt="<%= product.title %>" width="200px">
-                        </div>
-                        <div class="card__content">
-                            <h2 class="card__price">$<%= product.price %></h2>
-                            <p class="card__description"><%= product.description %></p>
-                        </div>
-                        <div class="card__actions">
-                            <a href="/product-details/<%= product._id %> " class="btn">Details</a>
+                            <a href="/product-details/<%= product._id %> ">
+                                <img src="/<%= product.imageUrl %>" alt="<%= product.title %>">
+                            </a>
                             <% if (isAuthenticated) { %> 
                                 <%- include('../includes/add-to-cart.ejs') %> 
                             <% } %> 
+                        </div>
+                        <header class="card__header">
+                            <h1 class="card__title"><%= product.title %></h1>
+                            <small><%= product.owner.name %></small>
+
+                        </header>
+                        <div class="card__content">
+                            <h2 class="card__price">CA$<%= product.price %></h2>
+                            <p class="card__description"><%= product.description.slice(0,100); %></p>
                         </div>
                     </article>
                 <% } %> 

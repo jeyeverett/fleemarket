@@ -8,6 +8,16 @@
         <h1 class="primary-title">Sign Up</h1>
         <form class='form' action="/signup" method="POST">
             <div class="form__control">
+                <label for="sellerName">Seller Name</label>
+                <input 
+                    class='<%= validationErrors.find(err => err.param === "sellerName") ? "invalid" : ""%>' 
+                    type="text" 
+                    name="sellerName" 
+                    id="sellerName" 
+                    required
+                    value="<%= input ? input.sellerName : '' %>">
+            </div>
+            <div class="form__control">
                 <label for="email">Email</label>
                 <input 
                     class='<%= validationErrors.find(err => err.param === "email") ? "invalid" : ""%>' 

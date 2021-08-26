@@ -1,23 +1,21 @@
 <section class="pagination">
   <% if (currentPage !== 1 && currentPage !== 2) { %>
     <a href="?page=1">1</a>
-    <span style="color: rgba(39, 60, 44, 1)">. . .</span>
+    <span class="pagination__dots">. . .</span>
   <% } %> 
 
   <% if (hasPrevPage) { %>
     <a href="?page=<%= prevPage %>"><%= prevPage %></a>
   <% } %>
 
-  <% if (!hasNextPage && currentPage !== 1) { %>
     <a href="?page=<%= currentPage %>" class="active"><%= currentPage %></a>
-  <% } %>
  
   <% if (hasNextPage) { %>
     <a href="?page=<%= nextPage %>"><%= nextPage %></a>
   <% } %> 
 
   <% if (hasNextPage && nextPage !== lastPage) { %>
-    <span style="color: rgba(39, 60, 44, 1)">. . .</span>
+    <span class="pagination__dots">. . .</span>
     <a href="?page=<%= lastPage %>"><%= lastPage %></a>
   <% } %>
 

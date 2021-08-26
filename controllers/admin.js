@@ -4,17 +4,17 @@ const { deleteFile } = require('../utilities/file');
 // Models
 const Product = require('../models/product');
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 8;
 
 // READ
 const getProducts = (req, res, next) => {
   const page = req.query.page ? Number(req.query.page) : 1;
   let totalItems;
-  Product.find({ userId: req.session.userId })
+  Product.find({ 'owner.userId': req.session.userId })
     .countDocuments()
     .then((numProducts) => {
       totalItems = numProducts;
-      return Product.find({ userId: req.session.userId })
+      return Product.find({ 'owner.userId': req.session.userId })
         .skip((page - 1) * ITEMS_PER_PAGE)
         .limit(ITEMS_PER_PAGE);
     })
@@ -88,7 +88,7 @@ const postProductAdd = (req, res, next) => {
     price,
     description,
     imageUrl,
-    userId: req.user,
+    owner: { userId: req.user._id, name: req.user.sellerName },
   });
   product
     .save()

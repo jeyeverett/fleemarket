@@ -3,3 +3,4 @@ node_modules
 images
 server.cert
 server.key
+data

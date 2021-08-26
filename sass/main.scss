@@ -1,17 +1,17 @@
-@import "base";
-@import "mobile";
-@import "utilities";
+@import 'variables';
+@import 'base';
+@import 'mobile';
+@import 'utilities';
 
-@import "header";
+@import 'header';
 
-@import "form";
-@import "admin";
+@import 'form';
+@import 'admin';
 
-@import "button";
+@import 'button';
 
-@import "product";
-@import "card";
+@import 'product';
+@import 'card';
 
-@import "cart";
-@import "order";
-
+@import 'cart';
+@import 'order';

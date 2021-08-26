@@ -1,71 +1,81 @@
 .card {
-    min-width: 30rem;
-    min-height: 50rem;
-    display: flex;
-    flex-direction: column;
+  min-width: 30rem;
+  min-height: 30rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  background-color: rgba(white, 1);
+  border: 1px solid rgba($color-black, 0.1);
+  border-radius: 5px;
+  transition: all 0.2s;
+  padding-bottom: 1rem;
+  position: relative;
+
+  &:hover {
+    box-shadow: 0 5px 8px rgba($color-black, 0.1);
+    .cart-btn {
+      top: 0.5rem;
+      opacity: 1;
+    }
+  }
+
+  &__header {
+    padding-left: 1rem;
+    small {
+      font-size: 1.1rem;
+    }
+  }
+
+  &__image {
+    overflow: hidden;
+    max-height: 15rem;
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    margin-bottom: 2rem;
+    img {
+      width: 100%;
+    }
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  &__price {
+    padding-left: 1rem;
+
+    color: $color-black;
+    width: min-content;
+    margin-bottom: 0.5rem;
+  }
+
+  &__content {
+  }
+
+  &__description {
     margin: 0 auto;
-    align-items: center;
-    border: 1px solid rgba(black, .1);
-    padding: 2rem 0;
-    border-radius: 10px;
-    box-shadow: 0 1rem 1.5rem rgba(black, .2);
+    padding: 0 1rem;
+    width: 100%;
+    font-size: 1.2rem;
+  }
 
+  &__actions {
+  }
 
-    &__header {
-        margin-bottom: 1rem;
+  &__admin {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 2rem 0 2rem;
+
+    &--edit {
+      margin-right: 1rem;
+      background-color: transparent;
     }
 
-    &__image { 
-        width: 100%;
-        height: 100%;
-        max-width: 20rem;
-        max-height: 20rem;
-        overflow: hidden;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        border-radius: 5px;
-        box-shadow: 0 1rem 1.5rem rgba(black, .4);
-        img {
-            width: 100%;
-        }
+    &--delete {
+      background-color: transparent;
+      color: hsl(0, 70%, 60%);
     }
-
-    &__content {
-        text-align: center;
-        width: 70%;
-        margin-bottom: 2rem;
-
-    }
-
-    &__description {
-        font-size: 1.2rem;
-    }
-
-    &__actions {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-
-        :first-child {
-            margin-bottom: 1rem;
-        }
-    }
-
-    &__admin {
-        display: flex;
-        flex-direction: row;
-        margin: 0;
-        
-        &--edit {
-            margin-right: 1rem;
-            background-color: transparent;
-        }
-
-        &--delete {
-            background-color: transparent;
-            color: hsl(0, 70%, 60%);
-        }
-    }
+  }
 }

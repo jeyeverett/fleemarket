@@ -1,83 +1,79 @@
 .main-header {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 6rem;
+  background-color: $color-primary-dark;
+
+  &__nav {
     width: 100%;
-    height: 5rem;
-    background-image: linear-gradient(105deg, 
-        rgba(39, 60, 44, .8) 0%, 
-        rgba(39, 60, 44, .8) 40%, 
-        #626868 60%, 
-        #626868 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
 
-    &__nav {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 2rem 4rem;
-
-        @media only screen and (max-width: 700px) {
-            padding: 1rem 2rem;
-        }
-
-        @media only screen and (max-width: 600px) {
-            display: none;
-        }
-    }  
-
-    &__navbar {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        font-size: 1.8rem;
+    &-brand {
+      font-family: 'Luckiest Guy', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      color: white;
     }
-    
-    &__nav-item {
-        text-transform: uppercase;
-        color: #FFF;
-        font-weight: 400;
-        font-size: 1.4rem;
-        margin: 1.5rem 1.5rem .5rem 1.5rem;
-        padding-bottom: 1rem;
-        transition: all .2s;
-        cursor: pointer;
-        border-bottom: 1px solid transparent;
 
-        &:hover {
-            border-bottom: 1px solid #FFF;
-        }
-
-        &:last-child {
-            height: min-content;
-            margin: 0;
-            margin-left: 1rem;
-            padding: 1rem 1.5rem;
-            border: 1px solid #FFF;
-            border-radius: 8px;
-            transition: all .2s;
-            background-color: transparent;
-
-            &:hover {
-                background-color: #FFF;
-                color: #626868;
-            }
-        }
-
-        @media only screen and (max-width: 900px) {
-            font-size: 1.3rem;
-        }
-
-        @media only screen and (max-width: 800px) {
-            font-size: 1.2rem;
-            margin: 1.5rem 1rem .5rem 1rem;
-        }
-
-        @media only screen and (max-width: 700px) {
-            font-size: 1.1rem;
-        }
+    i {
+      color: white;
+      font-size: 3rem;
+      margin-right: 1rem;
     }
+
+    @media only screen and (max-width: 700px) {
+      padding: 1rem 2rem;
+    }
+
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  &__navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 1.8rem;
+  }
+
+  &__nav-item {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.4rem;
+    margin: 1.5rem;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background-color: rgba(255, 255, 255, 0.25);
+
+    &:hover {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 5px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    @media only screen and (max-width: 900px) {
+      font-size: 1.3rem;
+    }
+
+    @media only screen and (max-width: 800px) {
+      font-size: 1.2rem;
+      margin: 1.5rem 1rem 0.5rem 1rem;
+    }
+
+    @media only screen and (max-width: 700px) {
+      font-size: 1.1rem;
+    }
+  }
 }
 
 .active {
-    border-bottom: 1px solid #FFF;
+  border: 1px solid #fff;
 }
