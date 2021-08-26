@@ -8,10 +8,6 @@ const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 
-const https = require('https');
-const privateKey = fs.readFileSync('server.key');
-const certificate = fs.readFileSync('server.cert');
-
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
     if (req.header('x-forwarded-proto') !== 'https')
@@ -178,8 +174,6 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() =>
-    // https
-    //   .createServer({ key: privateKey, cert: certificate }, app)
     app.listen(port, () =>
       console.log(`Server initiated on Port ${port} - MongoDB Connected`)
     )
