@@ -1,12 +1,10 @@
 const { validationResult } = require('express-validator');
-const { deleteFile } = require('../utilities/file');
 const { cloudinary } = require('../cloudinary');
-// Models
+
 const Product = require('../models/product');
 
 const ITEMS_PER_PAGE = 8;
 
-// READ
 const getProducts = (req, res, next) => {
   const page = req.query.page ? Number(req.query.page) : 1;
   let totalItems;
@@ -56,7 +54,10 @@ const postProductAdd = (req, res, next) => {
   const image = req.files[0];
   const errors = validationResult(req);
 
-  if (!image) {
+  if (
+    !image ||
+    !['image/jpeg', 'image/jpg', 'image/png'].includes(image.mimetype)
+  ) {
     res.locals.errorMessage = [
       { msg: 'Attached file must be an image in .png or .jpg format.' },
     ];
