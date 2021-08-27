@@ -1,10 +1,9 @@
-<% if (errorMessage.length) { %> 
-    <div class="user-msg user-msg--error">
-        <% errorMessage.forEach(error => { %> 
-            <% console.log(error?.msg); %>
-            <%= error?.msg %><br>
-        <% }); %> 
-    </div>
-<% } else if (successMessage.length) { %> 
-    <div class="user-msg"><%= successMessage %> </div>
-<% } %> 
+<% if (errorMessage.length) { %>
+<div class="user-msg">
+  <% errorMessage.forEach(error => { %> <% console.log(error?.msg); %> <%=
+  error?.msg %><br />
+  <% }); %>
+</div>
+<% } else if (successMessage.length) { %>
+<div class="user-msg"><%= successMessage %></div>
+<% } %>

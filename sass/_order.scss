@@ -1,29 +1,40 @@
 .order {
-    &__items {
-        text-align: center;
-        border-radius: 10px;
-        box-shadow: 0 1rem 1.5rem rgba(black, .2);
-        min-width: 30rem;
-        padding: 2rem 4rem;
-        margin-bottom: 3rem;
+  border: $border;
+  transition: all 0.2s;
+  border-radius: 10px;
 
-        h1 {
-            font-weight: 400;
-            margin-bottom: 2rem;
-        }
+  &__items {
+    text-align: center;
+    min-width: 30rem;
+    padding: 2rem 4rem;
+    margin-bottom: 3rem;
 
-        &--product {
-            font-size: 1.2rem;
-
-            &-title {
-                font-weight: 600;
-                margin-right: 2rem;
-            }
-        }
+    h1 {
+      font-weight: 400;
+      margin-bottom: 2rem;
     }
 
-    &__total {
-        text-align: right;
-        font-size: 1.1rem;
+    &--title {
+      color: $color-black;
     }
+
+    &--product {
+      font-size: 1.2rem;
+      color: $color-black;
+
+      &-title {
+        font-weight: 600;
+        margin-right: 2rem;
+      }
+    }
+  }
+
+  &:hover {
+    box-shadow: $box-shadow;
+  }
+
+  &__total {
+    text-align: right;
+    font-size: 1.1rem;
+  }
 }

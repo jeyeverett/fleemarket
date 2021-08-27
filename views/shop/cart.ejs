@@ -10,23 +10,28 @@
                 <% for (let product of cart) { %> 
                 <article class="cart-item">
 
-                    <h1 class="cart-item__title"><a href="/product-details/<%= product.productId._id %>"><%= product.productId.title %></a></h1>
+                    <a class="cart-item__image-container" href="/product-details/<%= product.productId._id %>">
+                        <img class="cart-item__image" src="<%= product.productId.image.url %>" alt="<%= product.productId.title %>">
+                        <h1 class="cart-item__title">
+                            <%= product.productId.title %>
+                        </h1>
+                    </a>
 
                     <div class="cart-item__description">
-                        <p class="cart-item__description--text"><%= product.productId.description.slice(0, 20) %>. . .</p>
+                        <p class="cart-item__description--text"><%= product.productId.description %></p>
                     </div>
 
                     <span class="cart-item__price">$<%= product.productId.price %></span>
                     <div class="cart-item__qty">
                         <form action="/cart/decrease" method="POST">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button class="cart-item__qty--button" type="submit">-</button>
+                            <button class="cart-item__qty--button" type="submit" id="decBtn" title="decrease quantity"><i class="fas fa-minus-square"></i></button>
                             <input type="hidden" name="productId" value="<%= product.productId._id %>">
                         </form>
-                            <%= product.quantity %>
+                            <span class="cart-item__qty--num"><%= product.quantity %></span>
                         <form action="/cart" method="POST">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button class="cart-item__qty--button" type="submit">+</button>
+                            <button class="cart-item__qty--button" type="submit" id="incBtn" title="increase quantity"><i class="fas fa-plus-square"></i></button>
                             <input type="hidden" name="productId" value="<%= product.productId._id %>">
                         </form>
                     </div>
@@ -34,7 +39,7 @@
                     <div class="cart-item__actions">
                         <form action="/cart/delete-product" method="POST">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button class="cart-item__actions--remove" type="submit">
+                            <button class="cart-item__actions--remove" type="submit" title="remove item">
                                 <i class="fas fa-times"></i>
                             </button>
                             <input type="hidden" name="productId" value="<%= product.productId._id %>">

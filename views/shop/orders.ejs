@@ -12,7 +12,7 @@
                 <ul class="order">
                     <% orders.forEach((order, index) => { %> 
                         <li class="order__items">
-                            <h2 class="mb-md">Order #<%= index + 1 %></h2>
+                            <h2 class="order__items--title mb-md">Order #<%= index + 1 %></h2>
                             <ul>
                                 <% order.products.forEach(item => { %> 
                                     <li class="order__items--product mb-sm">
