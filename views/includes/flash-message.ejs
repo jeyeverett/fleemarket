@@ -3,7 +3,26 @@
   <% errorMessage.forEach(error => { %> <% console.log(error?.msg); %> <%=
   error?.msg %><br />
   <% }); %>
+  <i class="fas fa-times" id="dismissErr"></i>
 </div>
 <% } else if (successMessage.length) { %>
-<div class="user-msg"><%= successMessage %></div>
+<div class="user-msg">
+  <%= successMessage %>
+  <i class="fas fa-times" id="dismissSucc"></i>
+</div>
 <% } %>
+
+<script>
+  const dismissErr = document.querySelector('#dismissErr');
+  const dismissSucc = document.querySelector('#dismissSucc');
+
+  if (dismissErr) {
+    dismissErr.addEventListener('click', dismiss);
+  } else if (dismissSucc) {
+    dismissSucc.addEventListener('click', dismiss);
+  }
+
+  function dismiss() {
+    this.parentElement.remove();
+  }
+</script>

@@ -118,13 +118,26 @@ a {
   padding: 1.5rem;
   border-radius: 5px;
   text-align: center;
-  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.25); }
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.25);
+  position: relative; }
   @media screen and (min-width: 900px) {
     .user-msg {
       width: 60rem; } }
   .user-msg--error {
     background-color: rgba(255, 255, 255, 0.75);
     border: 1px solid white; }
+  .user-msg .fas {
+    font-size: 2rem;
+    color: rgba(8, 79, 9, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: transparent;
+    position: absolute;
+    top: 1.7rem;
+    right: 1rem; }
+    .user-msg .fas:hover {
+      color: darkred; }
 
 .error {
   padding: 10rem;
