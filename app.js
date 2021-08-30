@@ -53,7 +53,6 @@ app.use(
   })
 );
 
-// Express setup
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, 'access.log'),
   { flags: 'a' }
@@ -71,11 +70,9 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-// Security
 const csrf = require('csurf');
 const csrfProtect = csrf();
 
-//Database
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -88,40 +85,15 @@ const store = new MongoDBStore(
 );
 store.on('error', (err) => console.log(err));
 
-// Models
 const User = require('./models/user');
 
-//Controllers
 const { getError404 } = require('./controllers/errors');
 
-//Routes
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-// Middleware
 const flash = require('connect-flash');
-// const multer = require('multer');
-// const fileStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'images');
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + '-' + file.originalname);
-//   },
-// });
-
-// const fileFilter = (req, file, cb) => {
-//   if (
-//     file.mimetype === 'image/png' ||
-//     file.mimetype === 'image/jpg' ||
-//     file.mimetype === 'image/jpeg'
-//   ) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
 
 app.use(
   session({

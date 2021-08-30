@@ -58,6 +58,7 @@ const postProductAdd = (req, res, next) => {
     !image ||
     !['image/jpeg', 'image/jpg', 'image/png'].includes(image.mimetype)
   ) {
+    cloudinary.uploader.destroy(image.filename);
     res.locals.errorMessage = [
       { msg: 'Attached file must be an image in .png or .jpg format.' },
     ];

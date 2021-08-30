@@ -62,7 +62,6 @@ const postLogin = (req, res) => {
             req.session.userId = user._id;
             return req.session.save((err) => {
               err ? console.log(err) : '';
-              req.flash('success', 'Welcome back!');
               res.redirect('/');
             });
           }
