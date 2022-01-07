@@ -9,7 +9,7 @@
         <div class="cart">
             <% for (let product of cart) { %> 
             <article class="cart-item">
-                <h1 class="cart-item__title"><a href="/product-details/<%= product.productId._id %>"><%= product.productId.title %></a></h1>
+                <h1 class="cart-item__title" style="margin: 0 0 0 10px"><a href="/product-details/<%= product.productId._id %>"><%= product.productId.title %></a></h1>
 
                 <div class="cart-item__description">
                     <p class="cart-item__description--text"><%= product.productId.description.slice(0, 20) %>. . .</p>
@@ -17,7 +17,8 @@
 
                 <span class="cart-item__price">$<%= product.productId.price %></span>
                 <div class="cart-item__qty">
-                        x<%= product.quantity %>
+                        x
+                        <span style="font-size: 1.1em;"><%= product.quantity %></span>
                 </div>
                 <div class="cart-item__actions">
                     <i class="far fa-check-square cart-item__actions--check"></i>

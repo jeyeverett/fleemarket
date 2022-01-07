@@ -1,13 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const PDFDocument = require('pdfkit');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const fs = require("fs");
+const path = require("path");
+const PDFDocument = require("pdfkit");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Models
-const Product = require('../models/product');
-const Order = require('../models/order');
+const Product = require("../models/product");
+const Order = require("../models/order");
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 6;
 
 const getAllProducts = (req, res, next) => {
   const page = req.query.page ? Number(req.query.page) : 1;
@@ -22,10 +22,10 @@ const getAllProducts = (req, res, next) => {
         .limit(ITEMS_PER_PAGE);
     })
     .then((products) => {
-      res.render('shop/product-list', {
-        pageTitle: 'Shop',
+      res.render("shop/product-list", {
+        pageTitle: "Shop",
         products: products,
-        path: '/shop',
+        path: "/shop",
         pageInfo: {
           currentPage: page,
           hasNextPage: ITEMS_PER_PAGE * page < totalItems,
@@ -43,31 +43,31 @@ const getProductDetails = (req, res, next) => {
   Product.findById(req.params.productId)
     .then((product) => {
       product
-        ? res.render('shop/product-details.ejs', {
-            pageTitle: 'Product List',
+        ? res.render("shop/product-details.ejs", {
+            pageTitle: "Product List",
             product: product,
-            path: '/product-list',
+            path: "/product-list",
           })
-        : res.status(401).redirect('/');
+        : res.status(401).redirect("/");
     })
     .catch((err) => next(err));
 };
 
 const getShopIndex = (req, res) => {
-  res.render('shop/index.ejs', {
-    pageTitle: 'Shop | Index Page',
-    path: '/',
+  res.render("shop/index.ejs", {
+    pageTitle: "Shop | Index Page",
+    path: "/",
   });
 };
 
 const getCartPage = (req, res, next) => {
   req.user
-    .populate('cart.items.productId')
+    .populate("cart.items.productId")
     .execPopulate()
     .then((user) => {
-      res.render('shop/cart', {
-        pageTitle: 'Shop | Cart Page',
-        path: '/cart',
+      res.render("shop/cart", {
+        pageTitle: "Shop | Cart Page",
+        path: "/cart",
         cart: user.cart.items,
         total: user.cart.items.reduce((acc, curr) => {
           const product = curr.productId;
@@ -82,7 +82,7 @@ const addToCart = (req, res, next) => {
   const { productId } = req.body;
   req.user
     .addToCart(productId)
-    .then(() => res.redirect('/cart'))
+    .then(() => res.redirect("/cart"))
     .catch((err) => next(err));
 };
 
@@ -90,7 +90,7 @@ const deleteFromCart = (req, res, next) => {
   const { productId } = req.body;
   req.user
     .deleteFromCart(productId)
-    .then(() => res.redirect('/cart'))
+    .then(() => res.redirect("/cart"))
     .catch((err) => next(err));
 };
 
@@ -98,7 +98,7 @@ const decreaseCartItemCount = (req, res, next) => {
   const { productId } = req.body;
   req.user
     .decCartItemCount(productId)
-    .then(() => res.redirect('/cart'))
+    .then(() => res.redirect("/cart"))
     .catch((err) => next(err));
 };
 
@@ -106,7 +106,7 @@ const getCheckoutPage = (req, res, next) => {
   let cart;
   let total = 0;
   req.user
-    .populate('cart.items.productId')
+    .populate("cart.items.productId")
     .execPopulate()
     .then((user) => {
       cart = user.cart.items;
@@ -116,24 +116,24 @@ const getCheckoutPage = (req, res, next) => {
       }, 0);
 
       return stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
+        payment_method_types: ["card"],
         line_items: cart.map((product) => {
           return {
             name: product.productId.title,
             description: product.productId.description,
             amount: product.productId.price * 100,
-            currency: 'usd',
+            currency: "usd",
             quantity: product.quantity,
           };
         }),
-        success_url: `${req.protocol}://${req.get('host')}/checkout/success`,
-        cancel_url: `${req.protocol}://${req.get('host')}/checkout/cancel`,
+        success_url: `${req.protocol}://${req.get("host")}/checkout/success`,
+        cancel_url: `${req.protocol}://${req.get("host")}/checkout/cancel`,
       });
     })
     .then((session) => {
-      res.render('shop/checkout', {
-        pageTitle: 'Shop | Checkout Page',
-        path: '/checkout',
+      res.render("shop/checkout", {
+        pageTitle: "Shop | Checkout Page",
+        path: "/checkout",
         cart,
         total,
         sessionId: session.id,
@@ -143,11 +143,11 @@ const getCheckoutPage = (req, res, next) => {
 };
 
 const getOrdersPage = (req, res, next) => {
-  Order.find({ 'user.userId': req.user._id })
+  Order.find({ "user.userId": req.user._id })
     .then((orders) => {
-      res.render('shop/orders.ejs', {
-        pageTitle: 'Shop | Orders Page',
-        path: '/orders',
+      res.render("shop/orders.ejs", {
+        pageTitle: "Shop | Orders Page",
+        path: "/orders",
         orders,
       });
     })
@@ -155,9 +155,9 @@ const getOrdersPage = (req, res, next) => {
 };
 
 const getCheckoutSuccess = (req, res, next) => {
-  if (res.locals.csrfToken === '') return res.redirect('/orders');
+  if (res.locals.csrfToken === "") return res.redirect("/orders");
   req.user
-    .populate('cart.items.productId')
+    .populate("cart.items.productId")
     .execPopulate()
     .then((user) => {
       const products = user.cart.items.map((item) => {
@@ -177,7 +177,7 @@ const getCheckoutSuccess = (req, res, next) => {
       return order.save();
     })
     .then(() => req.user.clearCart())
-    .then(() => res.redirect('/orders'))
+    .then(() => res.redirect("/orders"))
     .catch((err) => next(err));
 };
 
@@ -186,22 +186,22 @@ const getInvoice = (req, res, next) => {
   Order.findById(orderId)
     .then((order) => {
       if (!order) {
-        return next(new Error('No order found.'));
+        return next(new Error("No order found."));
       }
       if (String(order.user.userId) !== String(req.user._id)) {
-        return next(new Error('You are not authorized to access this.'));
+        return next(new Error("You are not authorized to access this."));
       }
       const invoiceName = `invoice-${orderId}.pdf`;
-      const invoicePath = path.join('data', 'invoices', invoiceName);
+      const invoicePath = path.join("data", "invoices", invoiceName);
 
       const pdfDoc = new PDFDocument();
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `inline; filename="${invoiceName}"`);
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `inline; filename="${invoiceName}"`);
       pdfDoc.pipe(fs.createWriteStream(invoicePath));
       pdfDoc.pipe(res);
 
-      pdfDoc.fontSize(18).text('Invoice');
-      pdfDoc.text(' ');
+      pdfDoc.fontSize(18).text("Invoice");
+      pdfDoc.text(" ");
       order.products.forEach((item) => {
         pdfDoc
           .fontSize(12)
@@ -209,7 +209,7 @@ const getInvoice = (req, res, next) => {
             `${item.product.title} x ${item.quantity} x $${item.product.price}`
           );
       });
-      pdfDoc.text(' ');
+      pdfDoc.text(" ");
       pdfDoc.text(`Total: $${order.total}`);
       pdfDoc.end();
     })

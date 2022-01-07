@@ -18,7 +18,7 @@
 
   &:hover {
     box-shadow: 0 1rem 2rem rgba($color-black, 0.3);
-    background-color: rgba($color-primary-dark, 1);
+    background-color: rgba($color-primary-light, 0.9);
     color: #fff;
   }
 
@@ -41,6 +41,13 @@
   right: 0.5rem;
   cursor: pointer;
   transition: all 0.2s;
+
+  @media screen and (max-width: 600px) {
+    top: 0.5rem;
+    opacity: 1;
+    background-color: transparent;
+    border: none;
+  }
 
   &:hover {
     box-shadow: 0 0.5rem 1rem rgba($color-black, 0.3);

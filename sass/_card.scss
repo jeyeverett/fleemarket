@@ -8,7 +8,7 @@
   border: 1px solid rgba($color-black, 0.1);
   border-radius: 5px;
   transition: all 0.2s;
-  padding-bottom: 1rem;
+  padding: 2rem;
   position: relative;
 
   &:hover {
@@ -28,12 +28,19 @@
 
   &__image {
     overflow: hidden;
-    max-height: 15rem;
-    border-radius: 5px 5px 0 0;
-    position: relative;
-    margin-bottom: 2rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    width: 50%;
+    max-height: 175px;
+    @media only screen and (max-width: 600px) {
+      width: 75%;
+    }
     img {
-      width: 100%;
+      height: 175px;
+      width: auto;
     }
   }
 
@@ -43,19 +50,20 @@
   }
 
   &__price {
-    padding-left: 1rem;
-
+    text-align: right;
     color: $color-black;
-    width: min-content;
     margin-bottom: 0.5rem;
   }
 
   &__content {
+    margin: 0 auto;
+    @media only screen and (max-width: 600px) {
+      width: 100%;
+    }
   }
 
   &__description {
     margin: 0 auto;
-    padding: 0 1rem;
     width: 100%;
     font-size: 1.2rem;
   }
@@ -75,7 +83,6 @@
 
     &--delete {
       background-color: transparent;
-      color: hsl(0, 70%, 60%);
     }
   }
 }

@@ -13,7 +13,7 @@ html {
 
 body {
   box-sizing: border-box;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 400;
   line-height: 1.7;
 }
@@ -33,7 +33,7 @@ a {
 }
 
 .primary-title {
-  font-family: 'Luckiest Guy', sans-serif;
+  font-family: "Luckiest Guy", sans-serif;
   color: $color-primary-dark;
   font-size: 3rem;
   text-transform: uppercase;
@@ -68,7 +68,7 @@ a {
       rgba(0, 0, 0, 0.75),
       rgba(0, 0, 0, 0.5)
     ),
-    url('https://res.cloudinary.com/dnpfrwpiq/image/upload/v1629997256/fleemarket/night-market_cslc5w.jpg');
+    url("https://res.cloudinary.com/dnpfrwpiq/image/upload/v1629997256/fleemarket/night-market_cslc5w.jpg");
   background-position: center;
   background-size: cover;
   display: flex;
@@ -84,6 +84,9 @@ a {
     font-size: 40px;
     letter-spacing: 1px;
 
+    @media screen and (max-width: 750px) {
+      text-align: center;
+    }
     @media screen and (max-width: 600px) {
       font-size: 18px;
     }
@@ -92,6 +95,9 @@ a {
   &__description {
     color: white;
     font-size: 17px;
+    @media screen and (max-width: 750px) {
+      text-align: center;
+    }
     @media screen and (max-width: 600px) {
       font-size: 12px;
     }
@@ -114,18 +120,20 @@ a {
 
   &__enter {
     color: white;
+    font-weight: 500;
+    text-transform: uppercase;
     text-decoration: none;
     margin-top: 4rem;
     font-size: 18px;
     padding: 2rem 4rem;
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    border: 1px solid $color-primary-dark;
     border-radius: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: $color-primary-dark;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.25);
     transition: all 0.2s;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba($color-primary, 0.8);
     }
 
     @media screen and (max-width: 600px) {
@@ -138,7 +146,7 @@ a {
 
 .user-msg {
   font-size: 1.4rem;
-  color: $color-primary-dark;
+  color: white;
   background-color: rgba($color-primary, 0.5);
   border: 1px solid rgba($color-primary-dark, 0.75);
   width: 95%;

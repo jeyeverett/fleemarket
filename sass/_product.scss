@@ -7,4 +7,25 @@
   align-content: center;
   gap: 3rem;
   margin: 2rem 0;
+
+  &__item {
+    .card {
+      &__image {
+        width: 75%;
+        @media only screen and (max-width: 600px) {
+          width: 100%;
+        }
+        img {
+          border-radius: 5px;
+        }
+      }
+      &__description {
+        padding: 0 25px;
+        width: 50%;
+        @media only screen and (max-width: 600px) {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
